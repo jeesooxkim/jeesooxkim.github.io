@@ -7,7 +7,7 @@ source "https://rubygems.org"
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-gem "jekyll", "~> 4.1.1"
+# gem "jekyll", "~> 4.1.1"
 # This is the default theme for new Jekyll sites. You may change this to anything you like.
 gem "jekyll-theme-persephone", "~> 0.2.0"
 gem "html-proofer"
@@ -17,7 +17,7 @@ gem "html-proofer"
 # gem "github-pages", group: :jekyll_plugins
 # If you have any plugins, put them here!
 group :jekyll_plugins do
-  # gem "github-pages"
+  gem "github-pages"
   gem "jekyll-feed", "~> 0.12"
 end
 
