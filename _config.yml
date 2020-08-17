@@ -20,13 +20,20 @@
 
 title: Jeesoo Kim
 email: jeesooxkim@gmail.com
-logo: /assets/images/logo/logo_light_sm.png
 description: >- # this means to ignore newlines until "baseurl:"
   I’m a graphics hobbyist, perpetual thinker, and coffee lover. I also like warm hugs.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username:  jeesooxkim
+
+social:
+  github: jeesooxkim
+  instagram: graphicode._
+  linkedin: jeesookim
+
+# favicon
+logo: /assets/images/logo/logo_light_sm.png
 
 # Build settings
 remote_theme: erlzhang/jekyll-theme-persephone
