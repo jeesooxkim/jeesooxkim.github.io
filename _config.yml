@@ -24,12 +24,14 @@ description: >- # this means to ignore newlines until "baseurl:"
   I’m a graphics hobbyist, perpetual thinker, and coffee lover. I also like warm hugs.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: blah
 github_username:  jeesooxkim
 
 # Build settings
 remote_theme: erlzhang/jekyll-theme-persephone
 plugins:
   - jekyll-feed
+  - jekyll-books
 
 # Start of Persephone theme specific fields ======
 theme_setting:
@@ -43,10 +45,10 @@ theme_setting:
   # archive_page: "archive.md"
   # The nav links on the top right of home/page/post/blog layout. You can set a local page(by setting a layout's path) or and external link ( both title and url are required) here.
   nav_pages:
-    - "about.html"
-    - "projects.html"
-    - "curiosities.html"
-    - "resume.html"
+    - "index.md"
+    - "projects.md"
+    - "curiosities.md"
+    - "resume.md"
     # -
     #   title: "External Link Title"
     #   url: "https://your-external-link.com"
@@ -77,9 +79,9 @@ social:
   instagram: graphicode._
   linkedin: jeesookim
 
-head_code: |
-#   <!-- Extra codes in the head of your site pages. You can add your Google Analysis codes here! -->
-  <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon/jk.ico">
+# head_code: |
+# #   <!-- Extra codes in the head of your site pages. You can add your Google Analysis codes here! -->
+#   <link rel="shortcut icon" type="image/x-icon" href="/assets/images/favicon/jk.ico">
 
 # # The settings of comments.
 # comment:
