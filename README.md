@@ -5,3 +5,6 @@ Welcome to my personal website! Here I keep track of upcoming personal projects,
 This site is built using Jekyll.
 
 Credit goes to [jekyll-theme-persephone](https://github.com/erlzhang/jekyll-theme-persephone) which provided the base theme I built off of.
+
+## Planning Process
+![img](https://github.com/jeesooxkim/jeesooxkim.github.io/blob/master/planning.jpg)
