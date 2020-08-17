@@ -1,18 +1,10 @@
 ---
 layout: book
-title: About
-permalink: /about/
+title: I'm Jeesoo.
+permalink: /
+img: /assets/images/about_cover.jpg
+next:
+    url: /about
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
-
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
-
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
-
-
-[jekyll-organization]: https://github.com/jekyll
+I love coffee and animation. I also happened to be lucky enough to really enjoy coding, so my parents didn't have to worry about me running off to art school. Instead, I'm intrigued by computer graphics, AI, as well as AR / XR / VR. Hope you learn a cool random thing or two here, and follow me along as I journey through the endless facets of graphics.
