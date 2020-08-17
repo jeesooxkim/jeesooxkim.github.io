@@ -10,10 +10,10 @@ before_script:
 script: ./script/cibuild
 
 # branch whitelist, only for GitHub Pages
-branches:
-  only:
-  - deploy     # test the gh-pages branch
-  - /pages-(.*)/ # test every branch which starts with "pages-"
+# branches:
+#   only:
+#   - deploy     # test the gh-pages branch
+#   - /pages-(.*)/ # test every branch which starts with "pages-"
 
 env:
   global:
