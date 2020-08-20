@@ -1,7 +1,8 @@
 ---
 layout: post
-title:  "wayne unten || fanning the flame"
-categories: jekyll update
+title:  "Wayne Unten: Fanning the Flame"
+thumb_image: "documentation/sample-image.jpg"
+tags: [daily, animation]
 ---
 Rise Up Animation has been hosting some amazing webinars to help jumpstart various animation lovers into the industry. A recent talk hosted Wayne Unten, a character animator at Disney Animation - most people these days know him as the character lead on Elsa from the Frozen movies. 
 
