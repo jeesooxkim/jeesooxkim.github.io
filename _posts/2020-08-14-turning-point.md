@@ -4,7 +4,7 @@ title: "Turning Point"
 thumb_image: "documentation/sample-image.jpg"
 tags: [daily]
 ---
-Software engineering is overrated.
+"It's not about the cards you're dealt, but how you play the hand." - Randy Pausch.
 
 I've been working as a developer for the past year, which has been extremely educational and interesting. Working with state-of-the-art AI algorithms and learning the software release procedures of a multi-billion dollar company that is literally a century old? My hands and mind have truly been busy.
 
@@ -20,7 +20,7 @@ My heart thrived the most when I let myself be creative. No wonder I was dreadin
 
 The reason why I fell in love with coding when I made my very first tic-tac-toe game out of Java my freshman spring of college was because I had created something out of thin air. I could interact and customize my creation to an infinite extent. Essentially I was presented with a task where it was simply impossible to be bored, since the things I could create had no boundaries. This was where I could create (and make money while doing it).
 
-Everything has been coming pointing to this direction, with little crumbs along the way like reading how Prof. Randy Pausch achieved his childhood dreams of working at Disney Imagineering, snooping around Maya and Blender, talking to the Imagineers at the GHC '18 Disney booth, binge watching the Imagineering story, and finally being fully encouraged to stop wasting my time hoping for things to get better, and to pursue what I know has always been on my mind.
+Everything has been converging. I've been handed a crumb trail along the way like reading how Professor Randy Pausch achieved his childhood dreams of working at Disney Imagineering, snooping around Maya and Blender, talking to the Imagineers at the GHC '18 Disney booth, binge watching the Imagineering story, and finally being fully encouraged to stop wasting my time hoping for things to get better, and to pursue what I know has always been on my mind.
 
 Computer graphics.
 

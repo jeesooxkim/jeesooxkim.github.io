@@ -4,12 +4,24 @@ title:  "Wayne Unten: Fanning the Flame"
 thumb_image: "documentation/sample-image.jpg"
 tags: [daily, animation]
 ---
-Rise Up Animation has been hosting some amazing webinars to help jumpstart various animation lovers into the industry. A recent talk hosted Wayne Unten, a character animator at Disney Animation - most people these days know him as the character lead on Elsa from the Frozen movies. 
+Rise Up Animation recently hosted **Wayne Unten**, a character animator at Disney Animation Studios --- most people these days know him as the character lead on Elsa from the Frozen movies. 
 
-You could catch glimpses of Wayne's passion on the "Making of Frozen II" series on Disney+. As I watched the first episode begin to unravel the depths of animated feature film development, the tone of the show came to a gentle stand still, mid-breath suspension as Wayne described the particular hall in the studios that housed framed letters from some of their viewers. He wiped a tear from his eye as he read one from a young girl, challenged and inspired to live another day and endure through depression, when she heard the lyrics of "Let It Go."
+You can catch glimpses of Wayne's passion on the <ins>Making of Frozen II</ins> docuseries on Disney+. Wayne walks through a hall in the studio which houses some framed letters from their viewers, and the tone of the moment immediately shifts. He reads one letter from a young suicidal girl, who was encouraged and inspired by Elsa to let her burdens go, and live another day. He chokes up.
 
-He's so passionate about what he does because it impacts and empowers people through the storytelling. For some, one of the only things they can enjoy is to go watch an animated film. It is an insane privilege to be able to bring that kind of joy to people, and deliver hope. 
+The same kind of mission showed in Wayne's eyes during the webinar, as he told the story of a man who had suffered a substantial and externally visible head injury. Although this man's daily life is undeniably impaired, one of the few normal things he can do as a family activity with his kids is to go to a dark movie theater to watch animated films.
 
-Wayne clarifies to me why I love this field. Animated films create a medium that allows for the invocation of empathy and inspiration for perhaps the widest range of audiences. It also reminds me why even as adults, we are pulled into Disney narratives - we resonate with the deep underlying moral questions and inner conflicts that the characters face, and aided by the exaggerated nature of facial expressions which is in the nature of animation, we get a transparent, vulnerable, and intense view of the characters' emotional responses. Remembering Anton Ego's childhood flashback in Ratatouille (accompanied by the underlying transformation into a believer of equality), Andy's passing on of Woody as an action of love in Toy Story 3, the death of Bing Bong in Inside Out, and so many more moments, we find ourselves understood in the most personal of spaces; spaces we haven't even shared with our closest loved ones. This give us permission to not only feel what they feel, but also feel vulnerable ourselves.
+It is a great privilege to be able to deliver hope and joy to people through what we create.
 
-Thank you again Rise Up Animation for hosting such golden webinars that make animation so accessible. They have given me the opportunity to learn so much, almost as if I have direct connections within the industry. (And I've made real connections as well!) They have also given me the permission to finally pursue this field - animation always felt elusive and far. And most importantly, their talks continue to fan the passion I have in this industry. My dreams grow by the day, and for the first time in a long while, I'm excited to wake up every morning because I know that there is so much to be learned, seen, and done in the world of animation.
+![Wayne Unten]({% asset 'wayne_unten.jpg' @path %})
+
+Wayne helped me put why I love this field into words. Animation is a medium through which one can invoke empathy and inspiration for perhaps the widest range of audiences. Even as adults, we are pulled into Disney narratives --- we resonate with the deep moral questions and inner conflicts that the characters face. With the help of the exaggerated nature of animated facial expressions and actions, we get a transparent, vulnerable, and intense view of the characters' emotional responses.
+
+We watch Anton Ego's flashback to his childhood in **Ratatouille**, and witness exactly how his stubborn worldview is shattered. We see the square that is Carl in **Up**, how he is rounded and softened out by Ellie, then left with a unspeakable hollowness once she has gone. A heart-broken Bing Bong in **Inside Out** is comforted by Sadness, and we realize the ever important role that Sadness plays in our own lives.
+
+In moments like these, we find ourselves understood in the most personal of spaces; spaces we haven't even shared with our closest loved ones. We are given permission, not only to feel what the characters are feeling, but also to feel vulnerable ourselves.
+
+![Ellie and Carl]({% asset 'ellie-carl-up.png' @path %})
+
+I've only recently given myself permission to finally pursue this seemingly elusive field of animation. And as I tune into these talks, however, the world of animation seems to greet me with open arms. The passion I have for hope-inspiring storytelling continues to grow, and for the first time in a long while, I'm excited to wake up every morning.
+
+There's just so much to be learned, seen, and done.
