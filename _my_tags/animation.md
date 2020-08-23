@@ -1,4 +1,0 @@
----
-slug: animation
-name: animation
----
