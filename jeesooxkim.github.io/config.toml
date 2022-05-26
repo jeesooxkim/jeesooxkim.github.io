@@ -1,0 +1,39 @@
+baseURL = 'http://example.org/'
+languageCode = 'en-us'
+title = 'My New Hugo Site'
+theme = "hugo-theme-sam"
+
+[params]
+    dateform             = "Mon Jan 02, 2006"
+    dateformfull         = "Mon Jan 2 2006 15:04:05 EST"
+#    favicon              = "sam.ico"
+    homepage             = "home"                           # What to call the home page link, link will not be rendered if empty
+    footerText           = "2022 Jeesoo Kim. Using Call me Sam, a theme for Hugo."
+
+[[params.videoBackground.sources]]
+    source  = "/background.mp4" # Your video file
+    type    = "video/mp4"
+    poster  = "/background.jpg" # The image to show when the video isn't playing
+
+# [params.videoBackground]
+#    overlay = "rgba(0, 0, 0, 0.4)" # optional
+
+[[params.mainMenu]]
+    link = "/about"
+    text = "JEESOO waved!"
+
+[[params.mainMenu]]
+    link = "/about#say-hello"
+    text = "a. wave back"
+
+[[params.mainMenu]]
+    link = "/resume"
+    text = "b. stalk"
+
+[[params.mainMenu]]
+    link = "/posts"
+    text = "c. read her mind"
+
+[[params.mainMenu]]
+    link = "/ignored"
+    text = "c. ignore"
