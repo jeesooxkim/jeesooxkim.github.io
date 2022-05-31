@@ -1,5 +1,5 @@
 baseURL = "https://example.com"
-title   = "| jeesoo kim |"
+title   = "hey, it's Jeesoo"
 languageCode = "en-us"
 theme = "hello-friend-ng"
 
@@ -61,7 +61,7 @@ disableHugoGeneratorInject = false
 
   # Home subtitle of the index page.
   #
-  homeSubtitle = "a software engineer with a pixel brain"
+  homeSubtitle = "a software engineer and her pixel thoughts"
 
   # Set a background for the homepage
   # backgroundImage = "assets/images/background.jpg"
@@ -117,7 +117,7 @@ disableHugoGeneratorInject = false
 
     topText = []
     bottomText = [
-      "Hello Friend NG theme by <a href=\"https://github.com/rhazdon\">Djordje Atlialp</a>."
+      "Theme <a href=\"https://github.com/rhazdon/hugo-theme-hello-friend-ng\">Hello Friend NG</a>. Powered by Hugo."
     ]
 
   # Colors for favicons

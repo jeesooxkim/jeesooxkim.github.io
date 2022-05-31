@@ -1,5 +1,5 @@
 ---
-title: "Hey! Jeesoo here."
+title: "happy to see you here!"
 date: 2018-02-13T12:21:57-05:00
 aliases: ["about-us","contact"]
 draft: true
@@ -10,25 +10,22 @@ tags:
 katex: true
 ---
 
-Thanks for stopping by. Here's a cup of coffee for your trouble.
+![a cup of pixelated coffee](./coffee.png)
 
-What a time to be alive for software engineers and researchers who love art! Hyper-realistic and stylized graphics for jaw-dropping textures, movement, lighting, etc. are cutting-edge developments that affect a huge range of fields including AR / XR / VR, gaming, and film. It's cool that these _also_ happen to be some of the most difficult engineering problems.
+Here's a cup of coffee for your trouble.
 
-Technical awe aside, my dream is to develop artistically novel tools that enable the creation of deeply believable, beautiful, and diverse stories. After all, I'm a programmer by craft, and a creative at heart.
+I'm a software engineer dedicated to developing artistically novel graphics tools. It's my personal goal to equip artists with more creative and efficient utilities -- aka to fuel the creation of more deeply believable, beautiful, and expansive visual stories. I'm a programmer by craft, and a creative at heart!
 
-On this site, I talk about graphics, animation, and associated concepts that I have been learning and building. I hope that you'll find some interesting topics and/or projects that spark your curiosity as well.
+Here, I post about computer graphics, animation, and associated concepts that I've been learning and building. I hope you find some interesting topics and/or projects that spark your curiosity as well.
 
-## Obligatory Hobbies Section
+Since you've taken the time to learn about me, I'd love to learn about _you_ too. Please do drop a note, my contact info is below!
 
-I also...
-- have a deep obsession with coffee
-- love music (guitar, ukulele-ing, singing, listening very loudly)
-- am always traveling to different cities and national parks
-- love running! (not in the Texas heat though)
+Yours,  
+Jeesoo
 
-Let me know if you want coffee equipment recs, want to come over for some in-house karaoke, or have beaten me to seeing the northern lights :(
+## say hello -
+I'm always open to meeting new friends and talking about cool ideas, whether it be professional or just about coffee and my/your cat.
 
-## Lastly, say hello!
-Drop a note if you have a second! I'm always open to meeting new friends and talking about cool ideas, whether it be professional or just about coffee and my/your cat.
+You can connect with me on [LinkedIn](https://www.linkedin.com/in/jeesookim), or send me an [email](mailto:jeesookim@gmail.com). Just let me know you stopped by my blog -- I'll be thrilled to chat!
 
 Thanks for hanging out!
