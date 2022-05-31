@@ -1,5 +1,5 @@
 ---
-title: "Today I thought about pizza"
+title: "What is Texture Mapping?"
 date: 2022-05-26T14:20:08-05:00
 showDate: true
 draft: true

@@ -34,6 +34,3 @@ I'm always open to meeting new friends and talking about cool ideas, whether it 
 - Connect with me - https://www.linkedin.com/in/jeesookim/
 - Check out my GitHub - https://github.com/jeesooxkim
 
-# CAT TAX
-Maple wanted to say hello too :) 
-![maple](maple.png)

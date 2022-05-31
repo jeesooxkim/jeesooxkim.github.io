@@ -5,13 +5,13 @@
   box-sizing: border-box; }
 
 html {
-  background-color: #39424E;
-  font-family: "Didact Gothic", "sans serif";
+  background-color: #181a1f;
+  font-family: "Lato", "sans serif";
   font-size: 16px; }
 
 body {
   font-size: 16px;
-  font-family: "Didact Gothic", "sans serif";
+  font-family: "Lato", "sans serif";
   color: #fff;
   line-height: 2rem;
   letter-spacing: 1.5px;
@@ -27,9 +27,14 @@ header {
   @media screen and (max-width: 736px) {
     header {
       padding: 3em 0; } }
-h1, h2, h3 {
+h1 {
   margin-bottom: 0.5em;
-  font-family: 'Didact Gothic', sans-serif;
+  font-family: "Lato", "sans serif";
+  opacity: 0.6; }
+
+h2, h3 {
+  margin-bottom: 0.5em;
+  font-family: "Lato", "sans serif";
   opacity: 0.6; }
 
 li {
@@ -106,7 +111,7 @@ nav {
   position: relative;
   bottom: 0;
   padding: 1rem;
-  font-family: "Didact Gothic", "sans serif";
+  font-family: "Lato", "sans serif";
   font-size: 1rem;
   line-height: 1em;
   opacity: 0.8; }
@@ -118,7 +123,7 @@ nav {
   min-height: calc(100vh - 6em); }
 
 .big-link {
-  font-family: "Didact Gothic", "sans serif";
+  font-family: "Lato", "sans serif";
   font-size: 3rem;
   font-weight: 300;
   margin-bottom: 2rem;
@@ -126,7 +131,7 @@ nav {
 
 #title {
   margin-top: 3rem;
-  font-family: "Didact Gothic", "sans serif";
+  font-family: "Lato", "sans serif";
   font-size: 2rem;
   line-height: 3rem;
   margin-bottom: 2rem; }
@@ -180,7 +185,7 @@ article {
     opacity: 1; }
   article blockquote {
     background-color: #cccccc;
-    color: #39424E;
+    color: #181a1f;
     padding: 2rem;
     margin: 2rem 1rem 2rem 1rem;
     border-radius: 3px; }
