@@ -59,7 +59,7 @@ training feature
 - Delivered public release within four months as an entry-level developer  
 - Provided final line of support to customers, providing immediate and adaptive problem solving
 
-### Open Source Contributions**  
+### Open Source Contributions  
 
 [IBM WA Extensions Toolkit](https://github.com/watson-developer-cloud/assistant-toolkit)  
 [IBM WA Web Chat Starter Kit](https://github.com/jeesooxkim/assistant-web-chat-service-desk-starter)
