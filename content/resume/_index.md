@@ -41,7 +41,7 @@ Salesforce, **messaging service** integration i.e. Slack and Facebook, and
 - Dual squad member to API/database squad and integrations
 development squad as a cross-team knowledge bridge  
 - Building, documenting, and maintaining Watson Assistant open source
-repositories [linked below]()  
+repositories [linked below](#open-source-contributions)  
 - DevOps work, focused on deployment configuration and CI/CD pipelines  
 - Ownership over robust and extensible E2E testing framework, reducing testing time and improving product release
 stability
@@ -59,7 +59,7 @@ training feature
 - Delivered public release within four months as an entry-level developer  
 - Provided final line of support to customers, providing immediate and adaptive problem solving
 
-**Open Source Contributions**  
+### Open Source Contributions**  
 
 [IBM WA Extensions Toolkit](https://github.com/watson-developer-cloud/assistant-toolkit)  
 [IBM WA Web Chat Starter Kit](https://github.com/jeesooxkim/assistant-web-chat-service-desk-starter)
