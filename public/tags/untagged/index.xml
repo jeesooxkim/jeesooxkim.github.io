@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>untagged on hey, it&#39;s Jeesoo</title>
+    <link>https://jeesooxkim.github.io/tags/untagged/</link>
+    <description>Recent content in untagged on hey, it&#39;s Jeesoo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Tue, 13 Feb 2018 12:21:57 -0500</lastBuildDate>
+    
+	<atom:link href="https://jeesooxkim.github.io/tags/untagged/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>happy to see you here!</title>
+      <link>https://jeesooxkim.github.io/about/</link>
+      <pubDate>Tue, 13 Feb 2018 12:21:57 -0500</pubDate>
+      
+      <guid>https://jeesooxkim.github.io/about/</guid>
+      <description>Here&amp;rsquo;s a cup of coffee for your trouble.
+I&amp;rsquo;m a software engineer dedicated to developing artistically novel graphics tools. It&amp;rsquo;s my personal goal to equip artists with more creative and efficient utilities &amp;ndash; aka to fuel the creation of more deeply believable, beautiful, and expansive visual stories. I&amp;rsquo;m a programmer by craft, and a creative at heart!
+Here, I post about computer graphics, animation, and associated concepts that I&amp;rsquo;ve been learning and building.</description>
+    </item>
+    
+  </channel>
+</rss>

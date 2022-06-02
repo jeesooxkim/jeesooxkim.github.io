@@ -83,6 +83,16 @@
   </url>
   
   <url>
+    <loc>https://jeesooxkim.github.io/about/</loc>
+    <lastmod>2018-02-13T12:21:57-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeesooxkim.github.io/tags/untagged/</loc>
+    <lastmod>2018-02-13T12:21:57-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jeesooxkim.github.io/series/hugo-101/</loc>
     <lastmod>2014-09-28T00:00:00+00:00</lastmod>
   </url>
@@ -165,6 +175,46 @@
   <url>
     <loc>https://jeesooxkim.github.io/tags/themes/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeesooxkim.github.io/tags/agile/</loc>
+  </url>
+  
+  <url>
+    <loc>https://jeesooxkim.github.io/tags/ai/</loc>
+  </url>
+  
+  <url>
+    <loc>https://jeesooxkim.github.io/tags/cicd/</loc>
+  </url>
+  
+  <url>
+    <loc>https://jeesooxkim.github.io/tags/ibm/</loc>
+  </url>
+  
+  <url>
+    <loc>https://jeesooxkim.github.io/tags/java/</loc>
+  </url>
+  
+  <url>
+    <loc>https://jeesooxkim.github.io/tags/jenkins/</loc>
+  </url>
+  
+  <url>
+    <loc>https://jeesooxkim.github.io/resume/</loc>
+  </url>
+  
+  <url>
+    <loc>https://jeesooxkim.github.io/tags/resume/</loc>
+  </url>
+  
+  <url>
+    <loc>https://jeesooxkim.github.io/tags/typescript/</loc>
+  </url>
+  
+  <url>
+    <loc>https://jeesooxkim.github.io/tags/watson/</loc>
   </url>
   
 </urlset>
