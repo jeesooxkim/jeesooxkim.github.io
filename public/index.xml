@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 28 Sep 2014 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 28 May 2022 00:02:51 -0500</lastBuildDate>
     
 	<atom:link href="https://jeesooxkim.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -31,6 +31,45 @@ We&amp;rsquo;ll start with creating a new site with a very basic template.</desc
       <description>Move static content to static Jekyll has a rule that any directory not starting with _ will be copied as-is to the _site output. Hugo keeps all static content under static. You should therefore move it all there. With Jekyll, something that looked like
 ▾ &amp;lt;root&amp;gt;/ ▾ images/ logo.png  should become
 ▾ &amp;lt;root&amp;gt;/ ▾ static/ ▾ images/ logo.png  Additionally, you&amp;rsquo;ll want any files that should reside at the root (such as CNAME) to be moved to static.</description>
+    </item>
+    
+    <item>
+      <title>Integrating KaTeX</title>
+      <link>https://jeesooxkim.github.io/posts/2022/05/integrating-katex/</link>
+      <pubDate>Sat, 28 May 2022 00:02:51 -0500</pubDate>
+      
+      <guid>https://jeesooxkim.github.io/posts/2022/05/integrating-katex/</guid>
+      <description>$$\sum_{x=1}^5 y^z$$</description>
+    </item>
+    
+    <item>
+      <title>Building a Ray Tracer</title>
+      <link>https://jeesooxkim.github.io/posts/2022/05/building-a-ray-tracer/</link>
+      <pubDate>Fri, 27 May 2022 14:20:08 -0500</pubDate>
+      
+      <guid>https://jeesooxkim.github.io/posts/2022/05/building-a-ray-tracer/</guid>
+      <description>A separate topic that Wayne emphasized in his webinar was &amp;ldquo;subtext.&amp;rdquo; Using the pigeon encounter scene from Bolt and Elsa&amp;rsquo;s crown throwing scene from Frozen, Wayne showed his detailed analysis on the connection the character&amp;rsquo;s expression has with their internal emotion - not with the external dialogue itself.
+For instance, breaking down the scene from Frozen, a frame by frame observation of Elsa&amp;rsquo;s face provides a massive amount of insight into what our mind is subconsciously processing.</description>
+    </item>
+    
+    <item>
+      <title>Linear Algebra: A Practical Visualization</title>
+      <link>https://jeesooxkim.github.io/posts/2022/05/linear-algebra-a-practical-visualization/</link>
+      <pubDate>Thu, 26 May 2022 14:20:08 -0500</pubDate>
+      
+      <guid>https://jeesooxkim.github.io/posts/2022/05/linear-algebra-a-practical-visualization/</guid>
+      <description>Rise Up Animation has been hosting some amazing webinars to help jumpstart various animation lovers into the industry. A recent talk hosted Wayne Unten, a character animator at Disney Animation - most people these days know him as the character lead on Elsa from the Frozen movies.
+You could catch glimpses of Wayne&amp;rsquo;s passion on the &amp;ldquo;Making of Frozen II&amp;rdquo; series on Disney+. As I watched the first episode begin to unravel the depths of animated feature film development, the tone of the show came to a gentle stand still, mid-breath suspension as Wayne described the particular hall in the studios that housed framed letters from some of their viewers.</description>
+    </item>
+    
+    <item>
+      <title>SIGGRAPH 2022</title>
+      <link>https://jeesooxkim.github.io/posts/2022/05/siggraph-2022/</link>
+      <pubDate>Tue, 24 May 2022 14:20:08 -0500</pubDate>
+      
+      <guid>https://jeesooxkim.github.io/posts/2022/05/siggraph-2022/</guid>
+      <description>A separate topic that Wayne emphasized in his webinar was &amp;ldquo;subtext.&amp;rdquo; Using the pigeon encounter scene from Bolt and Elsa&amp;rsquo;s crown throwing scene from Frozen, Wayne showed his detailed analysis on the connection the character&amp;rsquo;s expression has with their internal emotion - not with the external dialogue itself.
+For instance, breaking down the scene from Frozen, a frame by frame observation of Elsa&amp;rsquo;s face provides a massive amount of insight into what our mind is subconsciously processing.</description>
     </item>
     
     <item>

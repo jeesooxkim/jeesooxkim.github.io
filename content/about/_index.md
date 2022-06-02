@@ -2,8 +2,6 @@
 title: "happy to see you here!"
 date: 2018-02-13T12:21:57-05:00
 aliases: ["about-us","contact"]
-draft: true
-toc: false
 images:
 tags:
   - untagged

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>blog on hey, it&#39;s Jeesoo</title>
+    <link>https://jeesooxkim.github.io/tags/blog/</link>
+    <description>Recent content in blog on hey, it&#39;s Jeesoo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Fri, 27 May 2022 14:20:08 -0500</lastBuildDate>
+    
+	<atom:link href="https://jeesooxkim.github.io/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Building a Ray Tracer</title>
+      <link>https://jeesooxkim.github.io/posts/2022/05/building-a-ray-tracer/</link>
+      <pubDate>Fri, 27 May 2022 14:20:08 -0500</pubDate>
+      
+      <guid>https://jeesooxkim.github.io/posts/2022/05/building-a-ray-tracer/</guid>
+      <description>A separate topic that Wayne emphasized in his webinar was &amp;ldquo;subtext.&amp;rdquo; Using the pigeon encounter scene from Bolt and Elsa&amp;rsquo;s crown throwing scene from Frozen, Wayne showed his detailed analysis on the connection the character&amp;rsquo;s expression has with their internal emotion - not with the external dialogue itself.
+For instance, breaking down the scene from Frozen, a frame by frame observation of Elsa&amp;rsquo;s face provides a massive amount of insight into what our mind is subconsciously processing.</description>
+    </item>
+    
+    <item>
+      <title>Linear Algebra: A Practical Visualization</title>
+      <link>https://jeesooxkim.github.io/posts/2022/05/linear-algebra-a-practical-visualization/</link>
+      <pubDate>Thu, 26 May 2022 14:20:08 -0500</pubDate>
+      
+      <guid>https://jeesooxkim.github.io/posts/2022/05/linear-algebra-a-practical-visualization/</guid>
+      <description>Rise Up Animation has been hosting some amazing webinars to help jumpstart various animation lovers into the industry. A recent talk hosted Wayne Unten, a character animator at Disney Animation - most people these days know him as the character lead on Elsa from the Frozen movies.
+You could catch glimpses of Wayne&amp;rsquo;s passion on the &amp;ldquo;Making of Frozen II&amp;rdquo; series on Disney+. As I watched the first episode begin to unravel the depths of animated feature film development, the tone of the show came to a gentle stand still, mid-breath suspension as Wayne described the particular hall in the studios that housed framed letters from some of their viewers.</description>
+    </item>
+    
+  </channel>
+</rss>

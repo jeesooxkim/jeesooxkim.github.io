@@ -1,8 +1,6 @@
 ---
 title: "Resume"
 url: "/resume"
-draft: true
-toc: false
 images:
 tags:
   - resume

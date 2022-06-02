@@ -1,7 +1,6 @@
 ---
 title: "Building a Ray Tracer"
 date: 2022-05-27T14:20:08-05:00
-draft: true
 toc: false
 images:
 tags:

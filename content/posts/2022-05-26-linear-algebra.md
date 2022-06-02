@@ -1,7 +1,6 @@
 ---
 title: "Linear Algebra: A Practical Visualization"
 date: 2022-05-26T14:20:08-05:00
-draft: true
 toc: false
 images:
 tags:
