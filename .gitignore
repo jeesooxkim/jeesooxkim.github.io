@@ -1,0 +1,7 @@
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+*-technical_summary.md
+real-time_GPU_renderer.png

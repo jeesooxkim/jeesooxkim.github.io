@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jeesoo Kim</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #f5f5f5;
+    --text: #2a2a2a;
+    --text-secondary: #666;
+    --link: #555;
+    --link-hover: #222;
+    --tile-bg: #e0e0e0;
+    --tile-border: #ccc;
+    --tile-border-hover: #999;
+    --tile-gradient-start: rgba(60,60,60,0.85);
+    --tile-gradient-end: rgba(60,60,60,0.15);
+    --tile-text: #f0f0f0;
+    --tile-tech: #ccc;
+    --backdrop: rgba(0, 0, 0, 0.4);
+    --modal-bg: #fff;
+    --modal-border: #ddd;
+    --modal-close-border: #ccc;
+    --modal-close-color: #888;
+    --modal-close-hover-bg: #eee;
+    --modal-close-hover-color: #333;
+    --modal-tech: #888;
+    --modal-label: #777;
+    --modal-text: #444;
+    --modal-bullet: #aaa;
+  }
+
+  body.dark {
+    --bg: #0a0a0a;
+    --text: #f0f0f0;
+    --text-secondary: #888;
+    --link: #8ab4d6;
+    --link-hover: #b0d4f0;
+    --tile-bg: #1a1a1a;
+    --tile-border: #2a2a2a;
+    --tile-border-hover: #444;
+    --tile-gradient-start: rgba(0,0,0,0.85);
+    --tile-gradient-end: rgba(0,0,0,0.2);
+    --tile-text: #f0f0f0;
+    --tile-tech: #aaa;
+    --backdrop: rgba(0, 0, 0, 0.75);
+    --modal-bg: #141414;
+    --modal-border: #2a2a2a;
+    --modal-close-border: #444;
+    --modal-close-color: #ccc;
+    --modal-close-hover-bg: #333;
+    --modal-close-hover-color: #fff;
+    --modal-tech: #888;
+    --modal-label: #666;
+    --modal-text: #ccc;
+    --modal-bullet: #555;
+  }
+
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+    padding-bottom: 80px;
+  }
+
+  header {
+    text-align: center;
+    padding: 60px 20px 20px;
+  }
+
+  header h1 {
+    font-size: 2.8rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-top: 12px;
+  }
+
+  .social-links {
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .social-links a {
+    font-size: 0.85rem;
+    color: var(--link);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.15s;
+  }
+
+  .social-links a:hover {
+    color: var(--link-hover);
+  }
+
+  h2.section-title {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  .tile {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-border);
+    display: flex;
+    align-items: flex-end;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .tile:hover {
+    transform: translateY(-4px);
+    border-color: var(--tile-border-hover);
+  }
+
+  .tile-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+
+  .tile-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--tile-gradient-start) 0%, var(--tile-gradient-end) 100%);
+    z-index: 1;
+  }
+
+  .tile-content {
+    position: relative;
+    z-index: 2;
+    padding: 24px;
+    width: 100%;
+    color: var(--tile-text);
+  }
+
+  .tile-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .tile-tech {
+    font-size: 0.8rem;
+    color: var(--tile-tech);
+    font-weight: 400;
+  }
+
+  /* Modal overlay */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--backdrop);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
+
+  .modal-backdrop.active {
+    display: flex;
+  }
+
+  .modal {
+    background: var(--modal-bg);
+    border: 1px solid var(--modal-border);
+    border-radius: 12px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 40px;
+    position: relative;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: 1px solid var(--modal-close-border);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    color: var(--modal-close-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .modal-close:hover {
+    background: var(--modal-close-hover-bg);
+    color: var(--modal-close-hover-color);
+  }
+
+  .modal h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    padding-right: 40px;
+  }
+
+  .modal .modal-tech {
+    font-size: 0.85rem;
+    color: var(--modal-tech);
+    margin-bottom: 24px;
+  }
+
+  .modal-media {
+    margin-bottom: 24px;
+  }
+
+  .modal-media img,
+  .modal-media video {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .modal-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--modal-label);
+    margin-bottom: 8px;
+  }
+
+  .modal-text {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--modal-text);
+    margin-bottom: 24px;
+  }
+
+  .modal-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 24px;
+  }
+
+  .modal-list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+    font-size: 0.9rem;
+    color: var(--modal-text);
+  }
+
+  .modal-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--modal-bullet);
+  }
+
+  .theme-toggle {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--modal-bg);
+    border: 1px solid var(--tile-border);
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    cursor: pointer;
+    z-index: 50;
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--tile-border-hover);
+    color: var(--text);
+  }
+
+  @media (max-width: 600px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    header h1 {
+      font-size: 2rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Jeesoo Kim</h1>
+  <p class="subtitle">Graphics Software Engineer | Austin, TX</p>
+  <div class="social-links">
+    <a href="https://www.linkedin.com/in/jeesookim/" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://github.com/jeesooxkim" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+    </a>
+    <a href="mailto:jeesookim@gmail.com" aria-label="Email">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/><path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/></svg>
+    </a>
+  </div>
+</header>
+
+<h2 class="section-title">Selected Works</h2>
+
+<div class="grid">
+  <div class="tile" data-project="0">
+    <div class="tile-bg" id="bg-0"></div>
+    <div class="tile-overlay"></div>
+    <div class="tile-content">
+      <div class="tile-title">Real-Time GPU Renderer</div>
+      <div class="tile-tech">WebGL / GLSL</div>
+    </div>
+  </div>
+
+  <div class="tile" data-project="1">
+    <div class="tile-bg" id="bg-1"></div>
+    <div class="tile-overlay"></div>
+    <div class="tile-content">
+      <div class="tile-title">Neural Implicit Surface Renderer & Pipeline</div>
+      <div class="tile-tech">PyTorch, GLSL</div>
+    </div>
+  </div>
+
+  <div class="tile" data-project="2">
+    <div class="tile-bg" id="bg-2"></div>
+    <div class="tile-overlay"></div>
+    <div class="tile-content">
+      <div class="tile-title">Volumetric Scene Renderer (NeRF)</div>
+      <div class="tile-tech">WebGL / PyTorch</div>
+    </div>
+  </div>
+
+  <!-- hidden until ready
+  <div class="tile" data-project="3">
+    <div class="tile-bg" id="bg-3"></div>
+    <div class="tile-overlay"></div>
+    <div class="tile-content">
+      <div class="tile-title">Position-Based Dynamics (XPBD) Simulation</div>
+      <div class="tile-tech">XPBD, WebGL / GLSL</div>
+    </div>
+  </div>
+  -->
+</div>
+
+<button class="theme-toggle" id="theme-toggle">Dark Mode</button>
+
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">&times;</button>
+    <h3 id="modal-title"></h3>
+    <div class="modal-tech" id="modal-tech"></div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const projects = [
+  {
+    title: 'Real-Time GPU Renderer',
+    tech: 'WebGL / GLSL',
+    summary: 'A GPU-based real-time renderer built using signed distance fields, supporting dynamic scene composition, lighting, and shadows through raymarching.',
+    motivation: 'I wanted to build a flexible rendering system from first principles that could represent complex geometry without meshes, while maintaining real-time performance and interactive control.',
+    technicalSummary: [
+      'Ray-primitive intersection handles spheres via an analytic quadratic solver and oriented bounding boxes via axis-aligned slab testing, with rays transformed into local object space and normals reconstructed from the slab axis of the minimum intersection parameter.',
+      'Lighting uses a Phong illumination model with ambient, diffuse, and specular terms. Textured materials sample UV-mapped textures into the diffuse reflectance.',
+      'Shadows are resolved by casting rays from each surface hit point toward every light source and testing for occlusion against the full scene geometry.',
+      'Specular reflections are traced recursively up to a bounce depth of 50, accumulating attenuated color at each reflection event.',
+    ],
+    futureWork: [
+      'Refactor and modularize the texture mapping pipeline to eliminate hardcoded object origins, halfwidths, and rotations from the UV mapping logic.',
+      'Add transparency and transmittance support to enable emissive materials like lamp light passing through translucent surfaces.',
+    ],
+    thumbnail: 'real-time_GPU_renderer.jpg',
+    media: [{ type: 'image', src: 'real-time_GPU_renderer.jpg' }],
+  },
+  {
+    title: 'Neural Implicit Surface Renderer & Pipeline',
+    tech: 'PyTorch, GLSL',
+    summary: 'An end-to-end pipeline that converts 3D mesh data into neural implicit surface representations and deploys them into real-time GLSL shaders for rendering.',
+    motivation: 'I was interested in bridging machine learning and real-time graphics by exploring how learned representations can replace traditional geometry in interactive rendering systems.',
+    technicalSummary: [
+      'The neural SDF is a 4-layer MLP (24 hidden features per layer, trained for 20k iterations in PyTorch) that maps 3D coordinates to signed distance values encoding surface geometry.',
+      'Training runs entirely on GPU with explicit tensor device placement, avoiding the CPU-GPU transfer overhead that otherwise bottlenecks optimization.',
+      'SDF boundary clamping outside the unit sphere is tuned per mesh to suppress ray marching artifacts caused by unbounded distance estimates in unsampled regions.',
+      'On the rendering side, sphere-traced ray marching in GLSL consumes the learned SDF, with surface normals derived from central-difference gradient estimation for Phong shading.',
+    ],
+    futureWork: [
+      'Explore acceleration techniques such as multi-resolution hash encoding or octree-based sampling to reduce neural network training time.',
+      'Investigate methods for reducing surface artifacts, such as higher-resolution sampling near the unit sphere boundary and adaptive clamping strategies.',
+    ],
+    thumbnail: 'neural-implicit-thumbnail.png',
+    media: [
+      { type: 'video', src: 'neural-implicit-surface-renderer.mp4' },
+      { type: 'video', src: 'neural-implicit-surface-renderer-Nerf.mp4' },
+    ],
+  },
+  {
+    title: 'Volumetric Scene Renderer (NeRF)',
+    tech: 'WebGL / PyTorch',
+    summary: 'A real-time volumetric renderer implementing neural radiance fields with accelerated ray traversal and compositing for novel view synthesis.',
+    motivation: 'I wanted to understand how volumetric and neural rendering techniques could be adapted for interactive environments, rather than offline or research-only settings.',
+    technicalSummary: [
+      'The renderer supports both front-to-back and back-to-front alpha compositing of the volumetric rendering equation, producing identical output when transmittance is accumulated correctly.',
+      'An AABB ray intersection test using per-axis slab overlaps accelerates traversal by rejecting rays that miss the volume bounding box before any sampling occurs.',
+      'Front-to-back compositing tracks transmittance incrementally (T *= T_i), which allows early ray termination once accumulated opacity nears 1.0.',
+      'Each ray evaluates per-sample density and color with configurable absorption coefficients, supporting both uniform volumes and procedural density fields.',
+    ],
+    futureWork: [
+      'Develop a better understanding of the visual properties that distinguish steam from smoke, and apply that to more physically accurate procedural density functions.',
+    ],
+    thumbnail: 'volumetric-scene-renderer-thumbnail.png',
+    media: [
+      { type: 'video', src: 'volumetric-scene-renderer.mp4' },
+      { type: 'video', src: 'volumetric-scene-renderer-nerf.mp4' },
+    ],
+  },
+  {
+    title: 'Position-Based Dynamics (XPBD) Simulation',
+    tech: 'XPBD, WebGL / GLSL',
+    summary: 'A GPU-accelerated physics simulator implementing XPBD constraints for real-time particle dynamics, including collisions and spring systems.',
+    motivation: 'I aimed to explore stable, real-time physics simulation on the GPU and understand how constraint-based solvers can support interactive environments.',
+    media: [],
+  },
+];
+
+const backdrop = document.getElementById('modal-backdrop');
+const modalTitle = document.getElementById('modal-title');
+const modalTech = document.getElementById('modal-tech');
+const modalBody = document.getElementById('modal-body');
+const modalClose = document.getElementById('modal-close');
+
+// Set tile backgrounds
+projects.forEach((p, i) => {
+  const bg = document.getElementById('bg-' + i);
+  if (p.thumbnail) {
+    bg.style.backgroundImage = `url('${p.thumbnail}')`;
+  }
+});
+
+document.querySelectorAll('.tile').forEach(tile => {
+  tile.addEventListener('click', () => {
+    const p = projects[tile.dataset.project];
+    modalTitle.textContent = p.title;
+    modalTech.textContent = p.tech;
+
+    let mediaHtml = '';
+    if (p.media.length > 0) {
+      mediaHtml = '<div class="modal-media">';
+      for (const m of p.media) {
+        if (m.type === 'image') {
+          mediaHtml += `<img src="${m.src}" alt="${p.title}">`;
+        } else {
+          mediaHtml += `<video src="${m.src}" controls playsinline autoplay loop muted></video>`;
+        }
+      }
+      mediaHtml += '</div>';
+    }
+
+    let techHtml = '';
+    if (p.technicalSummary) {
+      techHtml = `<div class="modal-label">Technical Summary</div><ul class="modal-list">` +
+        p.technicalSummary.map(t => `<li>${t}</li>`).join('') + `</ul>`;
+    }
+
+    let futureHtml = '';
+    if (p.futureWork) {
+      futureHtml = `<div class="modal-label">Future Considerations & Improvements</div><ul class="modal-list">` +
+        p.futureWork.map(t => `<li>${t}</li>`).join('') + `</ul>`;
+    }
+
+    modalBody.innerHTML = mediaHtml +
+      `<div class="modal-label">Summary</div>` +
+      `<div class="modal-text">${p.summary}</div>` +
+      `<div class="modal-label">Motivation</div>` +
+      `<div class="modal-text">${p.motivation}</div>` +
+      techHtml +
+      futureHtml;
+    backdrop.classList.add('active');
+  });
+});
+
+modalClose.addEventListener('click', () => {
+  modalBody.querySelectorAll('video').forEach(v => v.pause());
+  backdrop.classList.remove('active');
+});
+backdrop.addEventListener('click', e => {
+  if (e.target === backdrop) {
+    modalBody.querySelectorAll('video').forEach(v => v.pause());
+    backdrop.classList.remove('active');
+  }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    modalBody.querySelectorAll('video').forEach(v => v.pause());
+    backdrop.classList.remove('active');
+  }
+});
+
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  themeToggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+  themeToggle.textContent = 'Light Mode';
+}
+</script>
+
+</body>
+</html>
