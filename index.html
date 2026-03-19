@@ -66,6 +66,7 @@
     min-height: 100vh;
     transition: background 0.3s, color 0.3s;
     padding-bottom: 80px;
+    overflow-x: hidden;
   }
 
   header {
@@ -122,15 +123,87 @@
     color: var(--text);
   }
 
-  h2.section-title {
-    text-align: center;
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .tab {
     font-size: 1.1rem;
     font-weight: 400;
     letter-spacing: 0.3em;
     text-transform: uppercase;
+    color: var(--text-secondary);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    transition: color 0.2s;
+  }
+
+  .tab:hover {
     color: var(--text);
-    margin-top: 40px;
-    margin-bottom: 40px;
+  }
+
+  .tab.active {
+    color: var(--text);
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  .tab-content.slide-right {
+    animation: slideInRight 0.5s ease both;
+  }
+
+  .tab-content.slide-left {
+    animation: slideInLeft 0.5s ease both;
+  }
+
+  .about-section {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+    text-align: center;
+  }
+
+  .profile-photo {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 32px;
+    border: 2px solid var(--tile-border);
+  }
+
+  .about-section p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--modal-text);
+    text-align: left;
+    margin-bottom: 28px;
+  }
+
+  .about-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
   }
 
   .grid {
@@ -361,8 +434,12 @@
   <p class="subtitle">graphics software engineer <strong>in</strong> austin, tx</p>
 </header>
 
-<h2 class="section-title">Selected Works</h2>
+<div class="tabs">
+  <button class="tab active" data-tab="works">Selected Works</button>
+  <button class="tab" data-tab="about">About</button>
+</div>
 
+<div class="tab-content active" id="tab-works">
 <div class="grid">
   <div class="tile" data-project="0">
     <div class="tile-bg" id="bg-0"></div>
@@ -401,6 +478,18 @@
     </div>
   </div>
   -->
+</div>
+</div>
+
+<div class="tab-content" id="tab-about">
+  <div class="about-section">
+    <img class="profile-photo" src="profile.png" alt="Jeesoo Kim">
+    <p><strong>Hi, I'm Jeesoo</strong> — a graphics software engineer building tools that enable artists to tell more beautiful and immersive visual stories.</p>
+    <p>I spent 5+ years at IBM watsonx shipping large-scale cloud-based generative AI, but computer graphics was always the thing that kept me up at night. In 2024, I left to pursue it full-time — I'm currently finishing my MS in Computer Science at Georgia Tech, specializing in Computer Graphics (graduating May 2026).</p>
+    <p>My focus is real-time rendering. I've been working hands-on with signed distance fields, neural radiance fields, GLSL shader programming, and GPU-accelerated physics simulation. I'm a programmer by craft and a creative at heart, and I'm most excited about the intersection of the two — building the tools and systems that make rich, expressive visuals possible at interactive speeds.</p>
+    <p>When I'm not writing shaders, I'm probably digging through vinyl crates, obsessing over a typeface, dialing in a coffee recipe, or hanging out with my wonderful cat Maple.</p>
+    <p>I'm currently exploring what's next! If your team is doing cool things in graphics, I'd love to chat about it.</p>
+  </div>
 </div>
 
 <div class="bottom-bar">
@@ -560,6 +649,19 @@ document.addEventListener('keydown', e => {
     modalBody.querySelectorAll('video').forEach(v => v.pause());
     backdrop.classList.remove('active');
   }
+});
+
+// Tab switching
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    const target = document.getElementById('tab-' + tab.dataset.tab);
+    target.classList.remove('slide-left', 'slide-right');
+    target.offsetHeight;
+    target.classList.add('active', tab.dataset.tab === 'works' ? 'slide-left' : 'slide-right');
+  });
 });
 
 const themeToggle = document.getElementById('theme-toggle');
