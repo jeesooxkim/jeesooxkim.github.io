@@ -7,6 +7,12 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--tile-border); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--tile-border-hover); }
+  html { scrollbar-color: var(--tile-border) var(--bg); }
+
   :root {
     --bg: #0a0a0a;
     --text: #f0f0f0;
@@ -97,10 +103,27 @@
     right: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     gap: 24px;
-    padding: 16px 20px;
+    padding: 14px 20px 13px;
     z-index: 50;
+    background: var(--bg);
+  }
+
+  .bottom-bar::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 40px;
+    background: linear-gradient(to top, var(--bg) 0%, color-mix(in srgb, var(--bg) 80%, transparent) 20%, color-mix(in srgb, var(--bg) 50%, transparent) 45%, color-mix(in srgb, var(--bg) 20%, transparent) 70%, transparent 100%);
+    pointer-events: none;
+    pointer-events: none;
+  }
+
+  .bottom-bar > * {
+    pointer-events: auto;
   }
 
   .social-links {
@@ -127,8 +150,23 @@
     display: flex;
     justify-content: center;
     gap: 40px;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    padding: 20px 0;
+    margin-top: 20px;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 40;
+  }
+
+  .tabs::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--bg) 0%, color-mix(in srgb, var(--bg) 80%, transparent) 20%, color-mix(in srgb, var(--bg) 50%, transparent) 45%, color-mix(in srgb, var(--bg) 20%, transparent) 70%, transparent 100%);
+    pointer-events: none;
   }
 
   .tab {
@@ -171,7 +209,7 @@
   .about-section {
     max-width: 600px;
     margin: 0 auto;
-    padding: 0 20px 60px;
+    padding: 40px 20px 60px;
     text-align: center;
   }
 
@@ -196,50 +234,7 @@
     margin-bottom: 0;
   }
 
-  .carousel {
-    overflow: hidden;
-    position: relative;
-  }
-
-  .carousel-track {
-    display: flex;
-    transition: transform 0.4s ease;
-    cursor: grab;
-  }
-
-  .carousel-track.dragging {
-    transition: none;
-    cursor: grabbing;
-  }
-
-  .carousel-page {
-    min-width: 100%;
-    flex-shrink: 0;
-  }
-
-  .carousel-dots {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    padding-bottom: 40px;
-  }
-
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    border: none;
-    background: var(--tile-border);
-    cursor: pointer;
-    padding: 0;
-    transition: background 0.2s;
-  }
-
-  .dot.active {
-    background: var(--text-secondary);
-  }
-
-  @keyframes slideInRight {
+@keyframes slideInRight {
     from { opacity: 0; transform: translateX(40px); }
     to { opacity: 1; transform: translateX(0); }
   }
@@ -255,7 +250,7 @@
     gap: 20px;
     max-width: 960px;
     margin: 0 auto;
-    padding: 0 20px 60px;
+    padding: 40px 20px 60px;
   }
 
   .tile {
@@ -268,7 +263,15 @@
     border: 1px solid var(--tile-border);
     display: flex;
     align-items: flex-end;
-    transition: transform 0.2s, border-color 0.2s;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s, opacity 0.6s ease;
+    opacity: 0;
+    transform: translateY(80px);
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease, border-color 0.2s;
+  }
+
+  .tile.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .tile:hover {
@@ -457,6 +460,41 @@
     border-color: var(--tile-border-hover);
   }
 
+  .side-header {
+    position: fixed;
+    top: 0;
+    right: calc(50% + 500px);
+    text-align: right;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    z-index: 50;
+  }
+
+  .side-header.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .side-header h2 {
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .side-header .social-links {
+    justify-content: flex-end;
+    gap: 14px;
+    margin-top: 12px;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 1200px) {
+    .side-header { display: none; }
+  }
+
   @media (max-width: 600px) {
     .grid {
       grid-template-columns: 1fr;
@@ -469,7 +507,22 @@
 </head>
 <body>
 
-<header>
+<div class="side-header" id="side-header">
+  <h2>Jeesoo<br>Kim</h2>
+  <div class="social-links">
+    <a href="https://www.linkedin.com/in/jeesookim/" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://github.com/jeesooxkim" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+    </a>
+    <a href="mailto:jeesookim@gmail.com" aria-label="Email">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/><path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/></svg>
+    </a>
+  </div>
+</div>
+
+<header id="main-header">
   <div class="social-links">
     <a href="https://www.linkedin.com/in/jeesookim/" target="_blank" rel="noopener" aria-label="LinkedIn">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
@@ -491,61 +544,47 @@
 </div>
 
 <div class="tab-content active" id="tab-works">
-<div class="carousel" id="carousel">
-  <div class="carousel-track" id="carousel-track">
-    <div class="carousel-page">
-      <div class="grid">
-        <div class="tile" data-project="0">
-          <div class="tile-bg" id="bg-0"></div>
-          <div class="tile-overlay"></div>
-          <div class="tile-content">
-            <div class="tile-title">Real-Time GPU Renderer</div>
-            <div class="tile-tech">WebGL / GLSL</div>
-          </div>
-        </div>
-        <div class="tile" data-project="1">
-          <div class="tile-bg" id="bg-1"></div>
-          <div class="tile-overlay"></div>
-          <div class="tile-content">
-            <div class="tile-title">Neural Implicit Surface Renderer & Pipeline</div>
-            <div class="tile-tech">Python / PyTorch, GLSL</div>
-          </div>
-        </div>
-        <div class="tile" data-project="2">
-          <div class="tile-bg" id="bg-2"></div>
-          <div class="tile-overlay"></div>
-          <div class="tile-content">
-            <div class="tile-title">Volumetric Scene Renderer (NeRF)</div>
-            <div class="tile-tech">Python / PyTorch, GLSL</div>
-          </div>
-        </div>
-        <div class="tile" data-project="3">
-          <div class="tile-bg" id="bg-3"></div>
-          <div class="tile-overlay"></div>
-          <div class="tile-content">
-            <div class="tile-title">Gaussian Splatting</div>
-            <div class="tile-tech">Python / PyTorch, GLSL</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-page">
-      <div class="grid">
-        <div class="tile" data-project="4">
-          <div class="tile-bg" id="bg-4"></div>
-          <div class="tile-overlay"></div>
-          <div class="tile-content">
-            <div class="tile-title">Position-Based Dynamics (XPBD) Simulation</div>
-            <div class="tile-tech">XPBD, WebGL / GLSL</div>
-          </div>
-        </div>
-      </div>
+<div class="grid">
+  <div class="tile" data-project="0">
+    <div class="tile-bg" id="bg-0"></div>
+    <div class="tile-overlay"></div>
+    <div class="tile-content">
+      <div class="tile-title">Real-Time GPU Renderer</div>
+      <div class="tile-tech">WebGL / GLSL</div>
     </div>
   </div>
-</div>
-<div class="carousel-dots">
-  <button class="dot active" data-page="0"></button>
-  <button class="dot" data-page="1"></button>
+  <div class="tile" data-project="1">
+    <div class="tile-bg" id="bg-1"></div>
+    <div class="tile-overlay"></div>
+    <div class="tile-content">
+      <div class="tile-title">Neural Implicit Surface Renderer & Pipeline</div>
+      <div class="tile-tech">Python / PyTorch, GLSL</div>
+    </div>
+  </div>
+  <div class="tile" data-project="2">
+    <div class="tile-bg" id="bg-2"></div>
+    <div class="tile-overlay"></div>
+    <div class="tile-content">
+      <div class="tile-title">Volumetric Scene Renderer (NeRF)</div>
+      <div class="tile-tech">Python / PyTorch, GLSL</div>
+    </div>
+  </div>
+  <div class="tile" data-project="3">
+    <div class="tile-bg" id="bg-3"></div>
+    <div class="tile-overlay"></div>
+    <div class="tile-content">
+      <div class="tile-title">Gaussian Splatting</div>
+      <div class="tile-tech">Python / PyTorch, GLSL</div>
+    </div>
+  </div>
+  <div class="tile" data-project="4">
+    <div class="tile-bg" id="bg-4"></div>
+    <div class="tile-overlay"></div>
+    <div class="tile-content">
+      <div class="tile-title">Position-Based Dynamics (XPBD) Simulation</div>
+      <div class="tile-tech">XPBD, WebGL / GLSL</div>
+    </div>
+  </div>
 </div>
 </div>
 
@@ -685,8 +724,7 @@ projects.forEach((p, i) => {
 });
 
 document.querySelectorAll('.tile').forEach(tile => {
-  tile.addEventListener('click', (e) => {
-    if (wasDragged) return;
+  tile.addEventListener('click', () => {
     const p = projects[tile.dataset.project];
     modalTitle.textContent = p.title;
     modalTech.textContent = p.tech;
@@ -748,80 +786,21 @@ document.addEventListener('keydown', e => {
 });
 
 // Tab switching
+let activeTab = 'works';
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
+    if (tab.classList.contains('active')) return;
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     tab.classList.add('active');
+    activeTab = tab.dataset.tab;
+    if (activeTab !== 'works') sideHeader.classList.remove('visible');
     const target = document.getElementById('tab-' + tab.dataset.tab);
     target.classList.remove('slide-left', 'slide-right');
     target.offsetHeight;
     target.classList.add('active', tab.dataset.tab === 'works' ? 'slide-left' : 'slide-right');
   });
 });
-
-// Carousel
-const track = document.getElementById('carousel-track');
-const dots = document.querySelectorAll('.dot');
-let currentPage = 0;
-const totalPages = 2;
-let dragStartX = 0;
-let dragOffset = 0;
-let isDragging = false;
-let wasDragged = false;
-
-function goToPage(page) {
-  currentPage = page;
-  track.style.transform = `translateX(-${page * 100}%)`;
-  dots.forEach((d, i) => d.classList.toggle('active', i === page));
-}
-
-dots.forEach(dot => {
-  dot.addEventListener('click', () => goToPage(Number(dot.dataset.page)));
-});
-
-track.addEventListener('mousedown', e => {
-  isDragging = true;
-  dragStartX = e.clientX;
-  track.classList.add('dragging');
-});
-
-track.addEventListener('mousemove', e => {
-  if (!isDragging) return;
-  dragOffset = e.clientX - dragStartX;
-  const base = -currentPage * track.parentElement.offsetWidth;
-  track.style.transform = `translateX(${base + dragOffset}px)`;
-});
-
-track.addEventListener('mouseup', endDrag);
-track.addEventListener('mouseleave', endDrag);
-
-function endDrag() {
-  if (!isDragging) return;
-  isDragging = false;
-  track.classList.remove('dragging');
-  wasDragged = Math.abs(dragOffset) > 5;
-  if (dragOffset < -60 && currentPage < totalPages - 1) goToPage(currentPage + 1);
-  else if (dragOffset > 60 && currentPage > 0) goToPage(currentPage - 1);
-  else goToPage(currentPage);
-  dragOffset = 0;
-}
-
-// Touch support
-track.addEventListener('touchstart', e => {
-  isDragging = true;
-  dragStartX = e.touches[0].clientX;
-  track.classList.add('dragging');
-}, { passive: true });
-
-track.addEventListener('touchmove', e => {
-  if (!isDragging) return;
-  dragOffset = e.touches[0].clientX - dragStartX;
-  const base = -currentPage * track.parentElement.offsetWidth;
-  track.style.transform = `translateX(${base + dragOffset}px)`;
-}, { passive: true });
-
-track.addEventListener('touchend', endDrag);
 
 const themeToggle = document.getElementById('theme-toggle');
 const iconSun = document.getElementById('icon-sun');
@@ -844,6 +823,50 @@ if (localStorage.getItem('theme') === 'light') {
   document.body.classList.add('light');
 }
 updateIcons();
+
+// Side header fade on scroll
+const mainHeader = document.getElementById('main-header');
+const sideHeader = document.getElementById('side-header');
+const tabsEl = document.querySelector('.tabs');
+sideHeader.style.top = tabsEl.offsetHeight + 'px';
+
+const observer = new IntersectionObserver(([entry]) => {
+  sideHeader.classList.toggle('visible', !entry.isIntersecting && activeTab === 'works');
+}, { threshold: 0 });
+observer.observe(mainHeader);
+
+// Tile animations
+const tiles = [...document.querySelectorAll('.tile')];
+const ROW_STAGGER = 80;
+
+// Group tiles into rows (pairs of 2)
+const rows = [];
+for (let i = 0; i < tiles.length; i += 2) {
+  rows.push(tiles.slice(i, i + 2));
+}
+
+function updateTiles() {
+  const vh = window.innerHeight;
+  rows.forEach(row => {
+    const top = row[0].getBoundingClientRect().top;
+    const show = top < vh;
+    row.forEach((tile, j) => {
+      tile.style.transitionDelay = show ? (j * 100) + 'ms' : '0ms';
+      tile.classList.toggle('visible', show);
+    });
+  });
+}
+
+// Initial load: staggered entrance per tile, but rows trigger together on scroll
+tiles.forEach((tile, i) => {
+  setTimeout(() => tile.classList.add('visible'), ROW_STAGGER * i);
+});
+
+let loadDone = false;
+setTimeout(() => { loadDone = true; }, ROW_STAGGER * tiles.length + 600);
+
+window.addEventListener('scroll', () => { if (loadDone) updateTiles(); }, { passive: true });
+window.addEventListener('resize', () => { if (loadDone) updateTiles(); }, { passive: true });
 </script>
 
 </body>
