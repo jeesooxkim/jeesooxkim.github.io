@@ -196,6 +196,49 @@
     margin-bottom: 0;
   }
 
+  .carousel {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .carousel-track {
+    display: flex;
+    transition: transform 0.4s ease;
+    cursor: grab;
+  }
+
+  .carousel-track.dragging {
+    transition: none;
+    cursor: grabbing;
+  }
+
+  .carousel-page {
+    min-width: 100%;
+    flex-shrink: 0;
+  }
+
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding-bottom: 40px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: var(--tile-border);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s;
+  }
+
+  .dot.active {
+    background: var(--text-secondary);
+  }
+
   @keyframes slideInRight {
     from { opacity: 0; transform: translateX(40px); }
     to { opacity: 1; transform: translateX(0); }
@@ -345,6 +388,14 @@
     margin-bottom: 12px;
   }
 
+  .modal-caption {
+    font-size: 0.8rem;
+    color: var(--modal-label);
+    text-align: center;
+    margin-top: -6px;
+    margin-bottom: 14px;
+  }
+
   .modal-label {
     font-size: 0.75rem;
     font-weight: 600;
@@ -440,44 +491,61 @@
 </div>
 
 <div class="tab-content active" id="tab-works">
-<div class="grid">
-  <div class="tile" data-project="0">
-    <div class="tile-bg" id="bg-0"></div>
-    <div class="tile-overlay"></div>
-    <div class="tile-content">
-      <div class="tile-title">Real-Time GPU Renderer</div>
-      <div class="tile-tech">WebGL / GLSL</div>
+<div class="carousel" id="carousel">
+  <div class="carousel-track" id="carousel-track">
+    <div class="carousel-page">
+      <div class="grid">
+        <div class="tile" data-project="0">
+          <div class="tile-bg" id="bg-0"></div>
+          <div class="tile-overlay"></div>
+          <div class="tile-content">
+            <div class="tile-title">Real-Time GPU Renderer</div>
+            <div class="tile-tech">WebGL / GLSL</div>
+          </div>
+        </div>
+        <div class="tile" data-project="1">
+          <div class="tile-bg" id="bg-1"></div>
+          <div class="tile-overlay"></div>
+          <div class="tile-content">
+            <div class="tile-title">Neural Implicit Surface Renderer & Pipeline</div>
+            <div class="tile-tech">Python / PyTorch, GLSL</div>
+          </div>
+        </div>
+        <div class="tile" data-project="2">
+          <div class="tile-bg" id="bg-2"></div>
+          <div class="tile-overlay"></div>
+          <div class="tile-content">
+            <div class="tile-title">Volumetric Scene Renderer (NeRF)</div>
+            <div class="tile-tech">Python / PyTorch, GLSL</div>
+          </div>
+        </div>
+        <div class="tile" data-project="3">
+          <div class="tile-bg" id="bg-3"></div>
+          <div class="tile-overlay"></div>
+          <div class="tile-content">
+            <div class="tile-title">Gaussian Splatting</div>
+            <div class="tile-tech">Python / PyTorch, GLSL</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-page">
+      <div class="grid">
+        <div class="tile" data-project="4">
+          <div class="tile-bg" id="bg-4"></div>
+          <div class="tile-overlay"></div>
+          <div class="tile-content">
+            <div class="tile-title">Position-Based Dynamics (XPBD) Simulation</div>
+            <div class="tile-tech">XPBD, WebGL / GLSL</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="tile" data-project="1">
-    <div class="tile-bg" id="bg-1"></div>
-    <div class="tile-overlay"></div>
-    <div class="tile-content">
-      <div class="tile-title">Neural Implicit Surface Renderer & Pipeline</div>
-      <div class="tile-tech">PyTorch, GLSL</div>
-    </div>
-  </div>
-
-  <div class="tile" data-project="2">
-    <div class="tile-bg" id="bg-2"></div>
-    <div class="tile-overlay"></div>
-    <div class="tile-content">
-      <div class="tile-title">Volumetric Scene Renderer (NeRF)</div>
-      <div class="tile-tech">WebGL / PyTorch</div>
-    </div>
-  </div>
-
-  <!-- hidden until ready
-  <div class="tile" data-project="3">
-    <div class="tile-bg" id="bg-3"></div>
-    <div class="tile-overlay"></div>
-    <div class="tile-content">
-      <div class="tile-title">Position-Based Dynamics (XPBD) Simulation</div>
-      <div class="tile-tech">XPBD, WebGL / GLSL</div>
-    </div>
-  </div>
-  -->
+</div>
+<div class="carousel-dots">
+  <button class="dot active" data-page="0"></button>
+  <button class="dot" data-page="1"></button>
 </div>
 </div>
 
@@ -530,7 +598,7 @@ const projects = [
   },
   {
     title: 'Neural Implicit Surface Renderer & Pipeline',
-    tech: 'PyTorch, GLSL',
+    tech: 'Python / PyTorch, GLSL',
     summary: 'An end-to-end pipeline that converts 3D mesh data into neural implicit surface representations and deploys them into real-time GLSL shaders for rendering.',
     motivation: 'I was interested in bridging machine learning and real-time graphics by exploring how learned representations can replace traditional geometry in interactive rendering systems.',
     technicalSummary: [
@@ -551,7 +619,7 @@ const projects = [
   },
   {
     title: 'Volumetric Scene Renderer (NeRF)',
-    tech: 'WebGL / PyTorch',
+    tech: 'Python / PyTorch, GLSL',
     summary: 'A real-time volumetric renderer implementing neural radiance fields with accelerated ray traversal and compositing for novel view synthesis.',
     motivation: 'I wanted to understand how volumetric and neural rendering techniques could be adapted for interactive environments, rather than offline or research-only settings.',
     technicalSummary: [
@@ -567,6 +635,30 @@ const projects = [
     media: [
       { type: 'video', src: 'media/volumetric-scene-renderer.mp4' },
       { type: 'video', src: 'media/volumetric-scene-renderer-nerf.mp4' },
+    ],
+  },
+  {
+    title: 'Gaussian Splatting',
+    tech: 'Python / PyTorch, GLSL',
+    summary: 'An end-to-end 2D Gaussian Splatting pipeline that optimizes collections of parameterized 2D Gaussians to reconstruct target images, with a real-time GLSL shader for interactive visualization of the optimized splats.',
+    motivation: 'I wanted to build hands-on intuition for the Gaussian Splatting paradigm — understanding how differentiable rendering of explicit primitives can replace neural implicit representations — starting from the 2D case before generalizing to 3D.',
+    technicalSummary: [
+      'Each 2D Gaussian is parameterized by center position, anisotropic scale, scalar rotation, and per-Gaussian RGBA color. The inverse covariance matrix is constructed as Σ⁻¹ = R·D⁻¹·Dᵀ⁻¹·Rᵀ, where R is the 2D rotation matrix and D is the diagonal scale matrix, enabling efficient evaluation of the Gaussian function at arbitrary image coordinates.',
+      'Image reconstruction accumulates contributions from N Gaussians per pixel via alpha-weighted summation: I(p) = Σᵢ αᵢ · f(p; cᵢ, Σᵢ⁻¹), where f is the unnormalized Gaussian evaluated at the pixel position relative to each splat center.',
+      'Optimization is performed in PyTorch using gradient descent over all Gaussian parameters simultaneously, minimizing pixel-wise MSE loss between the rendered splat image and the target. Learning rate scheduling and per-parameter optimizers allow centers, scales, rotations, and colors to converge at different rates.',
+      'A synthetic-to-real curriculum first validates the pipeline on a programmatically generated Gaussian target (closed-form ground truth), then applies the same optimization loop to photographic images such as the Mona Lisa with 100–200 Gaussians.',
+      'Optimized Gaussian parameters are exported as GLSL-compatible arrays and rendered in a fragment shader that reconstructs the inverse covariance matrix and evaluates the per-pixel Gaussian summation in real time on the GPU.',
+    ],
+    futureWork: [
+      'Extend the 2D pipeline to 3D Gaussian Splatting with view-dependent color via spherical harmonics, enabling novel view synthesis from multi-view image sets.',
+      'Implement adaptive densification and pruning strategies during optimization to automatically determine the optimal number of Gaussians for a given scene complexity.',
+      'Explore tile-based rasterization and depth sorting for the GLSL renderer to support proper alpha compositing with front-to-back ordering, matching the approach used in the original 3DGS paper.',
+    ],
+    thumbnail: 'media/2dgs.png',
+    media: [
+      { type: 'video', src: 'media/2dgs-300.mp4', caption: '# Gaussians = 300' },
+      { type: 'video', src: 'media/2dgs-400-final.mp4', caption: '# Gaussians = 400' },
+      { type: 'video', src: 'media/2dgs-500.mp4', caption: '# Gaussians = 500' },
     ],
   },
   {
@@ -593,7 +685,8 @@ projects.forEach((p, i) => {
 });
 
 document.querySelectorAll('.tile').forEach(tile => {
-  tile.addEventListener('click', () => {
+  tile.addEventListener('click', (e) => {
+    if (wasDragged) return;
     const p = projects[tile.dataset.project];
     modalTitle.textContent = p.title;
     modalTech.textContent = p.tech;
@@ -606,6 +699,9 @@ document.querySelectorAll('.tile').forEach(tile => {
           mediaHtml += `<img src="${m.src}" alt="${p.title}">`;
         } else {
           mediaHtml += `<video src="${m.src}" controls playsinline autoplay loop muted></video>`;
+        }
+        if (m.caption) {
+          mediaHtml += `<div class="modal-caption">${m.caption}</div>`;
         }
       }
       mediaHtml += '</div>';
@@ -663,6 +759,69 @@ document.querySelectorAll('.tab').forEach(tab => {
     target.classList.add('active', tab.dataset.tab === 'works' ? 'slide-left' : 'slide-right');
   });
 });
+
+// Carousel
+const track = document.getElementById('carousel-track');
+const dots = document.querySelectorAll('.dot');
+let currentPage = 0;
+const totalPages = 2;
+let dragStartX = 0;
+let dragOffset = 0;
+let isDragging = false;
+let wasDragged = false;
+
+function goToPage(page) {
+  currentPage = page;
+  track.style.transform = `translateX(-${page * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === page));
+}
+
+dots.forEach(dot => {
+  dot.addEventListener('click', () => goToPage(Number(dot.dataset.page)));
+});
+
+track.addEventListener('mousedown', e => {
+  isDragging = true;
+  dragStartX = e.clientX;
+  track.classList.add('dragging');
+});
+
+track.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  dragOffset = e.clientX - dragStartX;
+  const base = -currentPage * track.parentElement.offsetWidth;
+  track.style.transform = `translateX(${base + dragOffset}px)`;
+});
+
+track.addEventListener('mouseup', endDrag);
+track.addEventListener('mouseleave', endDrag);
+
+function endDrag() {
+  if (!isDragging) return;
+  isDragging = false;
+  track.classList.remove('dragging');
+  wasDragged = Math.abs(dragOffset) > 5;
+  if (dragOffset < -60 && currentPage < totalPages - 1) goToPage(currentPage + 1);
+  else if (dragOffset > 60 && currentPage > 0) goToPage(currentPage - 1);
+  else goToPage(currentPage);
+  dragOffset = 0;
+}
+
+// Touch support
+track.addEventListener('touchstart', e => {
+  isDragging = true;
+  dragStartX = e.touches[0].clientX;
+  track.classList.add('dragging');
+}, { passive: true });
+
+track.addEventListener('touchmove', e => {
+  if (!isDragging) return;
+  dragOffset = e.touches[0].clientX - dragStartX;
+  const base = -currentPage * track.parentElement.offsetWidth;
+  track.style.transform = `translateX(${base + dragOffset}px)`;
+}, { passive: true });
+
+track.addEventListener('touchend', endDrag);
 
 const themeToggle = document.getElementById('theme-toggle');
 const iconSun = document.getElementById('icon-sun');
