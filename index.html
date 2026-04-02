@@ -7,17 +7,61 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  ::-webkit-scrollbar { width: 0; display: none; }
+  html { scrollbar-width: none; }
+
+  .custom-scrollbar {
+    position: fixed;
+    right: 4px;
+    top: 8px;
+    bottom: 8px;
+    width: 20px;
+    z-index: 60;
+    pointer-events: none;
+  }
+
+  .custom-scrollbar:hover {
+    pointer-events: auto;
+  }
+
+  .scroll-thumb {
+    position: absolute;
+    right: 2px;
+    width: 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.35);
+    opacity: 0;
+    transition: opacity 0.4s ease, width 0.2s ease;
+    cursor: grab;
+    pointer-events: auto;
+  }
+
+  .scroll-thumb:hover, .scroll-thumb.dragging {
+    width: 10px;
+    right: 1px;
+    background: rgba(255,255,255,0.5);
+  }
+
+  .scroll-thumb.visible {
+    opacity: 1;
+  }
+
+  body.light .scroll-thumb {
+    background: rgba(0,0,0,0.25);
+  }
+
+  body.light .scroll-thumb:hover, body.light .scroll-thumb.dragging {
+    background: rgba(0,0,0,0.4);
+  }
+
   :root {
     --bg: #0a0a0a;
     --text: #f0f0f0;
     --text-secondary: #888;
-    --link: #8ab4d6;
-    --link-hover: #b0d4f0;
     --tile-bg: #1a1a1a;
     --tile-border: #2a2a2a;
     --tile-border-hover: #444;
     --tile-gradient-start: rgba(0,0,0,0.85);
-    --tile-gradient-end: rgba(0,0,0,0.2);
     --tile-text: #f0f0f0;
     --tile-tech: #aaa;
     --backdrop: rgba(0, 0, 0, 0.75);
@@ -37,13 +81,10 @@
     --bg: #f5f5f5;
     --text: #2a2a2a;
     --text-secondary: #666;
-    --link: #555;
-    --link-hover: #222;
     --tile-bg: #e0e0e0;
     --tile-border: #ccc;
     --tile-border-hover: #999;
     --tile-gradient-start: rgba(60,60,60,0.85);
-    --tile-gradient-end: rgba(60,60,60,0.15);
     --tile-text: #f0f0f0;
     --tile-tech: #ccc;
     --backdrop: rgba(0, 0, 0, 0.4);
@@ -76,7 +117,7 @@
 
   header h1 {
     font-size: 2.8rem;
-    font-weight: 300;
+    font-weight: 500;
     letter-spacing: 0.15em;
     text-transform: uppercase;
   }
@@ -85,7 +126,6 @@
     font-size: 1rem;
     font-weight: 400;
     letter-spacing: 0.2em;
-    text-transform: none;
     color: var(--text-secondary);
     margin-top: 12px;
   }
@@ -97,10 +137,27 @@
     right: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     gap: 24px;
-    padding: 16px 20px;
+    padding: 14px 20px 13px;
     z-index: 50;
+    background: var(--bg);
+    pointer-events: none;
+  }
+
+  .bottom-bar::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 40px;
+    background: linear-gradient(to top, var(--bg) 0%, color-mix(in srgb, var(--bg) 80%, transparent) 20%, color-mix(in srgb, var(--bg) 50%, transparent) 45%, color-mix(in srgb, var(--bg) 20%, transparent) 70%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .bottom-bar > * {
+    pointer-events: auto;
   }
 
   .social-links {
@@ -127,8 +184,23 @@
     display: flex;
     justify-content: center;
     gap: 40px;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    padding: 20px 0;
+    margin-top: 20px;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 40;
+  }
+
+  .tabs::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--bg) 0%, color-mix(in srgb, var(--bg) 80%, transparent) 20%, color-mix(in srgb, var(--bg) 50%, transparent) 45%, color-mix(in srgb, var(--bg) 20%, transparent) 70%, transparent 100%);
+    pointer-events: none;
   }
 
   .tab {
@@ -144,35 +216,32 @@
     transition: color 0.2s;
   }
 
-  .tab:hover {
-    color: var(--text);
-  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--text); }
 
-  .tab.active {
-    color: var(--text);
-  }
-
-  .tab-content {
-    display: none;
-  }
-
-  .tab-content.active {
-    display: block;
-  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
 
   .tab-content.slide-right {
     animation: slideInRight 0.5s ease both;
   }
 
-  .tab-content.slide-left {
-    animation: slideInLeft 0.5s ease both;
-  }
-
   .about-section {
     max-width: 600px;
     margin: 0 auto;
-    padding: 0 20px 60px;
+    padding: 40px 20px 60px;
     text-align: center;
+  }
+
+  .about-section > * {
+    opacity: 0;
+    transform: translateX(120px);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+  }
+
+  .about-section > *.visible {
+    opacity: 1;
+    transform: translateX(0);
   }
 
   .profile-photo {
@@ -244,18 +313,13 @@
     to { opacity: 1; transform: translateX(0); }
   }
 
-  @keyframes slideInLeft {
-    from { opacity: 0; transform: translateX(-40px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     max-width: 960px;
     margin: 0 auto;
-    padding: 0 20px 60px;
+    padding: 40px 20px 60px;
   }
 
   .tile {
@@ -268,7 +332,15 @@
     border: 1px solid var(--tile-border);
     display: flex;
     align-items: flex-end;
-    transition: transform 0.2s, border-color 0.2s;
+    opacity: 0;
+    transform: translateY(120px);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease, border-color 0.2s;
+    will-change: transform, opacity;
+  }
+
+  .tile.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .tile:hover {
@@ -283,6 +355,16 @@
     background-position: center;
     z-index: 0;
   }
+
+  .tile-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .tile:hover .tile-video { opacity: 1; }
 
   .tile-overlay {
     position: absolute;
@@ -312,7 +394,6 @@
     font-weight: 400;
   }
 
-  /* Modal overlay */
   .modal-backdrop {
     display: none;
     position: fixed;
@@ -324,9 +405,7 @@
     padding: 40px;
   }
 
-  .modal-backdrop.active {
-    display: flex;
-  }
+  .modal-backdrop.active { display: flex; }
 
   .modal {
     background: var(--modal-bg);
@@ -376,9 +455,7 @@
     margin-bottom: 24px;
   }
 
-  .modal-media {
-    margin-bottom: 24px;
-  }
+  .modal-media { margin-bottom: 24px; }
 
   .modal-media img,
   .modal-media video {
@@ -457,19 +534,67 @@
     border-color: var(--tile-border-hover);
   }
 
+  .side-header {
+    position: fixed;
+    top: 0;
+    right: calc(50% + 500px);
+    text-align: right;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    z-index: 50;
+  }
+
+  .side-header.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .side-header h2 {
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .side-header .social-links {
+    justify-content: flex-end;
+    gap: 14px;
+    margin-top: 12px;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 1200px) {
+    .side-header { display: none; }
+  }
+
   @media (max-width: 600px) {
-    .grid {
-      grid-template-columns: 1fr;
-    }
-    header h1 {
-      font-size: 2rem;
-    }
+    .grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 2rem; }
+    .custom-scrollbar { display: none; }
   }
 </style>
 </head>
 <body>
+<div class="custom-scrollbar" id="custom-scrollbar"><div class="scroll-thumb" id="scroll-thumb"></div></div>
 
-<header>
+<div class="side-header" id="side-header">
+  <h2>Jeesoo<br>Kim</h2>
+  <div class="social-links">
+    <a href="https://www.linkedin.com/in/jeesookim/" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="https://github.com/jeesooxkim" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+    </a>
+    <a href="mailto:jeesookim@gmail.com" aria-label="Email">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/><path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/></svg>
+    </a>
+  </div>
+</div>
+
+<header id="main-header">
   <div class="social-links">
     <a href="https://www.linkedin.com/in/jeesookim/" target="_blank" rel="noopener" aria-label="LinkedIn">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
@@ -612,6 +737,7 @@ const projects = [
       'Investigate methods for reducing surface artifacts, such as higher-resolution sampling near the unit sphere boundary and adaptive clamping strategies.',
     ],
     thumbnail: 'media/neural-implicit-thumbnail.png',
+    hoverVideo: 'media/neural-implicit-surface-renderer-Nerf.mp4',
     media: [
       { type: 'video', src: 'media/neural-implicit-surface-renderer.mp4' },
       { type: 'video', src: 'media/neural-implicit-surface-renderer-Nerf.mp4' },
@@ -632,6 +758,7 @@ const projects = [
       'Develop a better understanding of the visual properties that distinguish steam from smoke, and apply that to more physically accurate procedural density functions.',
     ],
     thumbnail: 'media/volumetric-scene-renderer-thumbnail.png',
+    hoverVideo: 'media/volumetric-scene-renderer-nerf.mp4',
     media: [
       { type: 'video', src: 'media/volumetric-scene-renderer.mp4' },
       { type: 'video', src: 'media/volumetric-scene-renderer-nerf.mp4' },
@@ -666,24 +793,46 @@ const projects = [
     tech: 'XPBD, WebGL / GLSL',
     summary: 'A GPU-accelerated physics simulator implementing XPBD constraints for real-time particle dynamics, including collisions and spring systems.',
     motivation: 'I aimed to explore stable, real-time physics simulation on the GPU and understand how constraint-based solvers can support interactive environments.',
+    thumbnail: 'media/XPBD.png',
     media: [],
   },
 ];
 
+// DOM refs
 const backdrop = document.getElementById('modal-backdrop');
 const modalTitle = document.getElementById('modal-title');
 const modalTech = document.getElementById('modal-tech');
 const modalBody = document.getElementById('modal-body');
 const modalClose = document.getElementById('modal-close');
+const mainHeader = document.getElementById('main-header');
+const sideHeader = document.getElementById('side-header');
+const scrollThumb = document.getElementById('scroll-thumb');
+const scrollbarArea = document.getElementById('custom-scrollbar');
+const tiles = [...document.querySelectorAll('.tile')];
+const aboutItems = [...document.querySelectorAll('.about-section > *')];
+const tabsEl = document.querySelector('.tabs');
 
-// Set tile backgrounds
+// Tile backgrounds and hover videos
 projects.forEach((p, i) => {
   const bg = document.getElementById('bg-' + i);
-  if (p.thumbnail) {
-    bg.style.backgroundImage = `url('${p.thumbnail}')`;
+  if (!bg) return;
+  if (p.thumbnail) bg.style.backgroundImage = `url('${p.thumbnail}')`;
+  if (p.hoverVideo) {
+    const video = document.createElement('video');
+    video.src = p.hoverVideo;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = 'none';
+    video.className = 'tile-video';
+    bg.appendChild(video);
+    const tile = bg.closest('.tile');
+    tile.addEventListener('mouseenter', () => { video.currentTime = 0; video.play(); });
+    tile.addEventListener('mouseleave', () => { video.pause(); });
   }
 });
 
+// Modal
 document.querySelectorAll('.tile').forEach(tile => {
   tile.addEventListener('click', (e) => {
     if (wasDragged) return;
@@ -707,56 +856,88 @@ document.querySelectorAll('.tile').forEach(tile => {
       mediaHtml += '</div>';
     }
 
-    let techHtml = '';
-    if (p.technicalSummary) {
-      techHtml = `<div class="modal-label">Technical Summary</div><ul class="modal-list">` +
-        p.technicalSummary.map(t => `<li>${t}</li>`).join('') + `</ul>`;
-    }
-
-    let futureHtml = '';
-    if (p.futureWork) {
-      futureHtml = `<div class="modal-label">Future Considerations & Improvements</div><ul class="modal-list">` +
-        p.futureWork.map(t => `<li>${t}</li>`).join('') + `</ul>`;
-    }
+    const techHtml = p.technicalSummary
+      ? `<div class="modal-label">Technical Summary</div><ul class="modal-list">${p.technicalSummary.map(t => `<li>${t}</li>`).join('')}</ul>`
+      : '';
+    const futureHtml = p.futureWork
+      ? `<div class="modal-label">Future Considerations & Improvements</div><ul class="modal-list">${p.futureWork.map(t => `<li>${t}</li>`).join('')}</ul>`
+      : '';
 
     modalBody.innerHTML = mediaHtml +
-      `<div class="modal-label">Summary</div>` +
-      `<div class="modal-text">${p.summary}</div>` +
-      `<div class="modal-label">Motivation</div>` +
-      `<div class="modal-text">${p.motivation}</div>` +
-      techHtml +
-      futureHtml;
+      `<div class="modal-label">Summary</div><div class="modal-text">${p.summary}</div>` +
+      `<div class="modal-label">Motivation</div><div class="modal-text">${p.motivation}</div>` +
+      techHtml + futureHtml;
     backdrop.classList.add('active');
   });
 });
 
-modalClose.addEventListener('click', () => {
+function closeModal() {
   modalBody.querySelectorAll('video').forEach(v => v.pause());
   backdrop.classList.remove('active');
-});
-backdrop.addEventListener('click', e => {
-  if (e.target === backdrop) {
-    modalBody.querySelectorAll('video').forEach(v => v.pause());
-    backdrop.classList.remove('active');
-  }
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    modalBody.querySelectorAll('video').forEach(v => v.pause());
-    backdrop.classList.remove('active');
-  }
-});
+}
+modalClose.addEventListener('click', closeModal);
+backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // Tab switching
+let activeTab = 'works';
+const ROW_STAGGER = 60;
+
+function staggerTilesIn() {
+  tiles.forEach(tile => {
+    tile.style.transition = 'none';
+    tile.classList.remove('visible', 'seen');
+    tile.style.transform = 'translateX(-120px)';
+    tile.style.opacity = '0';
+  });
+  tiles[0]?.offsetHeight;
+  const tabOrder = [];
+  for (let i = 0; i < tiles.length; i += 2) {
+    if (tiles[i + 1]) tabOrder.push(tiles[i + 1]);
+    tabOrder.push(tiles[i]);
+  }
+  tabOrder.forEach((tile, i) => {
+    tile.style.transition = '';
+    setTimeout(() => {
+      tile.style.transform = '';
+      tile.style.opacity = '';
+      tile.classList.add('visible', 'seen');
+    }, ROW_STAGGER * i);
+  });
+}
+
+function staggerAboutIn() {
+  aboutItems.forEach(el => {
+    el.classList.remove('visible');
+    el.style.transition = 'none';
+    el.style.transform = 'translateX(120px)';
+    el.style.opacity = '0';
+  });
+  aboutItems[0]?.offsetHeight;
+  aboutItems.forEach((el, i) => {
+    el.style.transition = '';
+    setTimeout(() => {
+      el.style.transform = '';
+      el.style.opacity = '';
+      el.classList.add('visible');
+    }, 100 * i);
+  });
+}
+
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
+    if (tab.classList.contains('active')) return;
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     tab.classList.add('active');
+    activeTab = tab.dataset.tab;
+    if (activeTab !== 'works') sideHeader.classList.remove('visible');
     const target = document.getElementById('tab-' + tab.dataset.tab);
-    target.classList.remove('slide-left', 'slide-right');
+    target.classList.remove('slide-right');
     target.offsetHeight;
-    target.classList.add('active', tab.dataset.tab === 'works' ? 'slide-left' : 'slide-right');
+    target.classList.add('active', 'slide-right');
+    if (activeTab === 'works') staggerTilesIn();
+    if (activeTab === 'about') staggerAboutIn();
   });
 });
 
@@ -835,15 +1016,143 @@ function updateIcons() {
 
 themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('light');
-  const isLight = document.body.classList.contains('light');
-  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
   updateIcons();
 });
 
-if (localStorage.getItem('theme') === 'light') {
-  document.body.classList.add('light');
-}
+if (localStorage.getItem('theme') === 'light') document.body.classList.add('light');
 updateIcons();
+
+// Side header
+sideHeader.style.top = tabsEl.offsetHeight + 'px';
+const headerObserver = new IntersectionObserver(([entry]) => {
+  sideHeader.classList.toggle('visible', !entry.isIntersecting && activeTab === 'works');
+}, { threshold: 0 });
+headerObserver.observe(mainHeader);
+
+// Tile scroll animations
+const rows = [];
+for (let i = 0; i < tiles.length; i += 2) rows.push(tiles.slice(i, i + 2));
+
+let lastScroll = window.scrollY;
+let scrollTicking = false;
+
+function updateTiles() {
+  const vh = window.innerHeight;
+  const scrollingUp = window.scrollY < lastScroll;
+  lastScroll = window.scrollY;
+
+  rows.forEach(row => {
+    const rect = row[0].getBoundingClientRect();
+    const inView = rect.top < vh && rect.bottom > 0;
+    const isVisible = row[0].classList.contains('visible');
+
+    if (inView && !isVisible) {
+      const fromY = scrollingUp ? -120 : 120;
+      row.forEach((tile, j) => {
+        const seen = tile.classList.contains('seen');
+        const staggerIdx = scrollingUp ? (row.length - 1 - j) : j;
+        tile.style.transition = 'none';
+        tile.style.transform = `translateY(${fromY}px)`;
+        if (seen) tile.style.opacity = '1';
+      });
+      row[0].offsetHeight;
+      row.forEach((tile, j) => {
+        const staggerIdx = scrollingUp ? (row.length - 1 - j) : j;
+        tile.style.transition = '';
+        tile.style.transitionDelay = (staggerIdx * 70) + 'ms';
+        tile.style.transform = '';
+        tile.style.opacity = '';
+        tile.classList.add('visible', 'seen');
+      });
+    } else if (!inView && isVisible) {
+      row.forEach(tile => {
+        tile.style.transition = 'none';
+        tile.style.transitionDelay = '0ms';
+        tile.classList.remove('visible');
+      });
+      row[0].offsetHeight;
+      row.forEach(tile => { tile.style.transition = ''; });
+    }
+  });
+  scrollTicking = false;
+}
+
+// Initial load stagger
+tiles.forEach((tile, i) => {
+  setTimeout(() => { tile.classList.add('visible', 'seen'); }, ROW_STAGGER * i);
+});
+
+let loadDone = false;
+setTimeout(() => { loadDone = true; }, ROW_STAGGER * tiles.length + 600);
+
+function onScroll() {
+  if (!loadDone || scrollTicking) return;
+  scrollTicking = true;
+  requestAnimationFrame(updateTiles);
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', () => { if (loadDone) updateTiles(); }, { passive: true });
+
+// Custom scrollbar
+let sbTimer;
+let sbDragging = false;
+let sbDragStartY = 0;
+let sbDragStartScroll = 0;
+
+function updateThumb() {
+  const docH = document.documentElement.scrollHeight;
+  const winH = window.innerHeight;
+  if (docH <= winH) { scrollThumb.style.display = 'none'; return; }
+  scrollThumb.style.display = '';
+  const trackTotal = winH - 16;
+  const ratio = winH / docH;
+  const thumbH = Math.max(30, ratio * trackTotal);
+  const scrollFrac = window.scrollY / (docH - winH);
+  scrollThumb.style.height = thumbH + 'px';
+  scrollThumb.style.top = (scrollFrac * (trackTotal - thumbH)) + 'px';
+}
+
+function showThumb() {
+  scrollThumb.classList.add('visible');
+  clearTimeout(sbTimer);
+  sbTimer = setTimeout(() => { if (!sbDragging) scrollThumb.classList.remove('visible'); }, 1200);
+}
+
+updateThumb();
+window.addEventListener('scroll', () => { updateThumb(); showThumb(); }, { passive: true });
+window.addEventListener('resize', updateThumb, { passive: true });
+
+scrollbarArea.addEventListener('mouseenter', showThumb);
+scrollbarArea.addEventListener('mouseleave', () => {
+  if (!sbDragging) { clearTimeout(sbTimer); sbTimer = setTimeout(() => scrollThumb.classList.remove('visible'), 400); }
+});
+
+scrollThumb.addEventListener('mousedown', e => {
+  sbDragging = true;
+  sbDragStartY = e.clientY;
+  sbDragStartScroll = window.scrollY;
+  scrollThumb.classList.add('dragging');
+  e.preventDefault();
+});
+
+document.addEventListener('mousemove', e => {
+  if (!sbDragging) return;
+  const docH = document.documentElement.scrollHeight;
+  const winH = window.innerHeight;
+  const trackTotal = winH - 16;
+  const thumbH = Math.max(30, (winH / docH) * trackTotal);
+  const dy = e.clientY - sbDragStartY;
+  window.scrollTo(0, sbDragStartScroll + dy * (docH - winH) / (trackTotal - thumbH));
+});
+
+document.addEventListener('mouseup', () => {
+  if (!sbDragging) return;
+  sbDragging = false;
+  scrollThumb.classList.remove('dragging');
+  sbTimer = setTimeout(() => scrollThumb.classList.remove('visible'), 1200);
+});
 </script>
 
 </body>
