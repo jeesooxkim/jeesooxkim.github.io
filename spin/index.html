@@ -136,9 +136,16 @@
     background:var(--cream);
     color:#3d2a12;
     width:min(92vw, 420px);
-    padding:22px 16px 18px;
+    /* extra headroom above/below the content, past the serrated teeth */
+    padding:44px 16px 40px;
     text-align:center;
-    box-shadow:0 0 0 4px var(--accent-shadow);
+    /* Serrated raffle-ticket teeth along the top and bottom edges. The
+       box-shadow border is replaced with drop-shadows, which follow the
+       clipped zigzag outline (a box-shadow would be cut off by the clip). */
+    clip-path:polygon(0% 12px, 3.125% 0%, 6.250% 12px, 9.375% 0%, 12.500% 12px, 15.625% 0%, 18.750% 12px, 21.875% 0%, 25.000% 12px, 28.125% 0%, 31.250% 12px, 34.375% 0%, 37.500% 12px, 40.625% 0%, 43.750% 12px, 46.875% 0%, 50.000% 12px, 53.125% 0%, 56.250% 12px, 59.375% 0%, 62.500% 12px, 65.625% 0%, 68.750% 12px, 71.875% 0%, 75.000% 12px, 78.125% 0%, 81.250% 12px, 84.375% 0%, 87.500% 12px, 90.625% 0%, 93.750% 12px, 96.875% 0%, 100.000% 12px, 100% calc(100% - 12px), 96.875% 100%, 93.750% calc(100% - 12px), 90.625% 100%, 87.500% calc(100% - 12px), 84.375% 100%, 81.250% calc(100% - 12px), 78.125% 100%, 75.000% calc(100% - 12px), 71.875% 100%, 68.750% calc(100% - 12px), 65.625% 100%, 62.500% calc(100% - 12px), 59.375% 100%, 56.250% calc(100% - 12px), 53.125% 100%, 50.000% calc(100% - 12px), 46.875% 100%, 43.750% calc(100% - 12px), 40.625% 100%, 37.500% calc(100% - 12px), 34.375% 100%, 31.250% calc(100% - 12px), 28.125% 100%, 25.000% calc(100% - 12px), 21.875% 100%, 18.750% calc(100% - 12px), 15.625% 100%, 12.500% calc(100% - 12px), 9.375% 100%, 6.250% calc(100% - 12px), 3.125% 100%, 0.000% calc(100% - 12px));
+  }
+  .claim-screen .voucher{
+    filter:drop-shadow(3px 0 0 var(--accent-shadow)) drop-shadow(-3px 0 0 var(--accent-shadow)) drop-shadow(0 3px 0 var(--accent-shadow)) drop-shadow(0 -3px 0 var(--accent-shadow));
   }
   .voucher-gift{
     width:84px;
@@ -168,7 +175,7 @@
   }
   .voucher-prize{
     box-sizing:border-box;
-    width:calc((100% - 24px) / 4);
+    width:calc((100% - 16px) / 3);
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -177,11 +184,11 @@
     box-shadow:0 0 0 2px #c9a86a;
     padding:8px 3px;
   }
-  .voucher-prize-icon{ font-size:26px; line-height:1; }
-  .voucher-prize-icon .icon-img{ height:30px; width:auto; }
+  .voucher-prize-icon{ font-size:32px; line-height:1; }
+  .voucher-prize-icon .icon-img{ height:40px; width:auto; }
   .voucher-prize-name{
     font-family:'IBM Plex Mono', monospace;
-    font-size:8px;
+    font-size:9px;
     line-height:1.35;
     word-break:break-word;
   }
@@ -190,6 +197,10 @@
     font-size:12px;
     line-height:1.5;
     padding:0 8px;
+  }
+  #voucherDownloadBtn{
+    font-size:12px;
+    padding:14px 22px;
   }
   /* Fixed-position tooltip naming the reel symbol under the cursor (the reels
      are clipped by overflow:hidden, so the tip lives at the document level). */
@@ -889,7 +900,11 @@
     opacity:0;
     pointer-events:none;
     transition:opacity 0.4s;
-    padding:16px;
+    /* The overlay itself scrolls when a modal is taller than the visible
+       viewport; the padding guarantees a visible gap above and below the
+       modal frame at the scroll extremes. */
+    padding:24px 16px;
+    overflow-y:auto;
   }
   .overlay.show{
     opacity:1;
@@ -901,6 +916,10 @@
     padding:8px;
     max-width:440px;
     width:100%;
+    /* margin:auto (not flex centering alone) so an overflowing modal stays
+       reachable from its very top instead of being clipped off-screen. */
+    margin:auto;
+    flex-shrink:0;
     transform:scale(0.85);
     transition:transform 0.4s;
   }
@@ -1026,6 +1045,12 @@
     width:100%;
     margin-top:0;
   }
+  /* The try-again button gets its own color so it reads as the secondary
+     action next to CLAIM PRIZES. */
+  #tryAgainBtn{
+    background:var(--sun2);
+    color:#2b1600;
+  }
   .tries-remaining{
     font-family:'VT323', monospace;
     font-size:16px;
@@ -1066,8 +1091,8 @@
     max-width:620px;
   }
   #welcomeOverlay .overlay-card{
-    max-height:88vh;
-    overflow-y:auto;
+    max-height:none;
+    overflow:visible;
   }
   #welcomeOverlay .overlay-card h2{
     font-size:17px;
@@ -1528,7 +1553,7 @@
       line-height:1.3;
     }
     .voucher-title{
-      font-size:14px;
+      font-size:13px;
     }
   }
 
@@ -1697,7 +1722,7 @@
           <span></span><span></span><span></span><span></span>
           <span></span><span></span><span></span><span></span>
         </div>
-        <p class="sub">Congratulations!<br><br>Someone mysterious gifted you 10 lucky spins on our summer sweepstakes. This year, we've filled the pot with awesome prizes to make this season absolutely legen--wait for it--DARY!</p>
+        <p class="sub">Congratulations!<br><br>Someone mysterious gifted you 10 lucky spins on our summer sweepstakes. This year, we've filled the pot with awesome prizes to make this season absolutely legen...wait for it...DARY!</p>
         <p class="sub prize-lead">The jackpot prizes are as follows:</p>
         <div class="info-prize-grid" id="welcomePrizeGrid"></div>
         <p class="sub">Good luck!</p>
@@ -1732,10 +1757,9 @@
   <div class="overlay" id="overlay">
     <div class="overlay-outer">
       <div class="overlay-card">
-        <h2>HAPPY BIRTHDAY<br><span class="deer-line">🦌 MY DEER 🦌</span></h2>
-        <p class="sub">Here are your prizes for turning 31 :)</p>
+        <h2>Congratulations! 🎉</h2>
+        <p class="sub">Wow, you were pretty lucky! Here are your winnings:</p>
         <div class="prize-list" id="prizeList"></div>
-        <p class="love-note">I love you!</p>
         <div class="final-actions">
           <div class="final-action-col">
             <button class="modal-btn final-btn" id="claimPrizesBtn">CLAIM PRIZES</button>
@@ -1752,13 +1776,13 @@
   <div class="claim-screen" id="claimScreen">
     <div class="voucher pf-lg" id="voucherCard">
       <img class="voucher-gift" id="claimGiftImg" alt="Gift">
-      <div class="voucher-title">Happy Birthday<br>Baby!</div>
+      <div class="voucher-title">Happy 31st Birthday<br>🦌 My Deer! 🦌</div>
       <div class="voucher-perf"></div>
       <div class="voucher-prizes" id="voucherPrizes"></div>
       <div class="voucher-perf"></div>
       <div class="voucher-note">Please see your girlfriend to claim this voucher. I love you!</div>
     </div>
-    <button class="modal-btn" id="voucherDownloadBtn">DOWNLOAD</button>
+    <button class="modal-btn" id="voucherDownloadBtn">Save Voucher to Images</button>
   </div>
 
 <script>
@@ -1927,21 +1951,28 @@
   let gameOver = false;
   let totalSpinsUsed = 0;
   let bonusSpinsGrantCount = 0;
+  let lastSpinWasBonus = false; // blocks back-to-back bonus-spin wins
+  // Wins are paced: after any win, the next 1-2 spins are guaranteed losses
+  // (except in the forced endgame), so wins never land every single spin.
+  let winCooldown = 0;
+  // The game no longer has to spend the entire $200 — it must deliver at
+  // least $160 of prizes, with the exact stopping point randomized per game
+  // so the total (and the number of wins) isn't predictable.
+  const SPEND_TARGET = 160 + Math.floor(Math.random() * 41); // $160-$200
   let budgetWinsSoFar = 0;
   let guaranteedComboWonOnce = false;
   const guaranteeSlot = 1 + Math.floor(Math.random() * 3); // 1, 2, or 3
   const preferredGuaranteedItem = pick(GUARANTEED_POOL);
 
-  // The lowest a prize can cost is $6, so after any single budget purchase at
-  // least ~$20 always remains — meaning at least 3 real wins (1 budget +
-  // special + 1 more budget) are always required before the game can possibly
-  // end.
+  // The game ends once all of these hold: the special prize (hat/pants) is
+  // awarded, at least one guaranteed-pool item (mouse/camera strap) is won,
+  // and total spend has reached this game's random target of at least $160 —
+  // or, as a fallback, nothing affordable remains.
   const BONUS_LOW_THRESHOLD = 5;   // spins-left level that counts as "running low"
-  // Recalibrated (via simulation) for the +5-per-grant, 3-grant-max design
+  // Recalibrated (via simulation) for the +5-per-grant, 2-grant-max design
   // below — these produce a ~30/70 split of bonus wins across
-  // spins-remaining > 5 vs <= 5, same target as before, just re-tuned since
-  // lowering the grant cap changed the game's rhythm again.
-  const BONUS_CHANCE_HIGH = 0.4;   // per-spin chance while spins-remaining > 5
+  // spins-remaining > 5 vs <= 5.
+  const BONUS_CHANCE_HIGH = 0.25;   // per-spin chance while spins-remaining > 5
   const BONUS_CHANCE_LOW = 0.08;   // per-spin chance while spins-remaining <= 5
   const BONUS_SPINS_AMOUNT = 5;    // spins granted per bonus win (was 3)
   const BONUS_SPINS_MAX_GRANTS = 2; // hard cap — never won more than this many times
@@ -1949,10 +1980,27 @@
   // win rate (including bonus-spin wins) was still much higher than that due
   // to the bonus mechanic's own frequency, so this is lowered further to
   // space out real prize wins more, per feedback that wins felt too frequent.
-  const WIN_PROBABILITY = 0.20;
+  const WIN_PROBABILITY = 0.16;
 
   function affordableUnwon(){
     return unwonBudget.filter(p => p.price <= remainingBudget);
+  }
+
+  function spentSoFar(){
+    return STARTING_BUDGET - remainingBudget;
+  }
+
+  // True once every obligation is met and the game is allowed to stop:
+  // special prize delivered, guaranteed-pool item delivered, and either the
+  // random spend target reached or nothing affordable left to give.
+  function maySettle(){
+    // The guarantee counts as satisfied if it was won, or if no pool item is
+    // affordable anymore (nothing can change that, so blocking the end would
+    // deadlock the game — fix 2a should make this fallback unreachable).
+    const guaranteeSatisfied = guaranteedComboWonOnce ||
+      !unwonBudget.some(p => GUARANTEED_POOL.includes(p.name) && p.price <= remainingBudget);
+    return specialAwarded && guaranteeSatisfied &&
+           (spentSoFar() >= SPEND_TARGET || affordableUnwon().length === 0);
   }
 
   // Delivers whichever win is currently "due" (the special one, or a random
@@ -1964,7 +2012,7 @@
       const prize = pick(SPECIAL_SECOND_PRIZES);
       specialAwarded = true;
       winCount += 1;
-      if(affordableUnwon().length === 0){ gameOver = true; }
+      if(maySettle()){ gameOver = true; }
       return buildEntry(prize, 0);
     }
     const options = affordableUnwon();
@@ -1981,7 +2029,7 @@
         unwonBudget = unwonBudget.filter(p => p.name !== chosen.name);
         remainingBudget -= chosen.price;
         winCount += 1;
-        if(specialAwarded && affordableUnwon().length === 0){ gameOver = true; }
+        if(maySettle()){ gameOver = true; }
         return buildEntry(chosen.name, 0);
       }
 
@@ -1992,13 +2040,29 @@
         const safeOptions = options.filter(p =>
           !GUARANTEED_POOL.includes(p.name) && (remainingBudget - p.price) >= GUARANTEED_MAX_PRICE
         );
+        if(safeOptions.length === 0){
+          // Every non-pool pick would leave the guarantee unaffordable, so
+          // deliver the guarantee right now instead of stranding it (the old
+          // fallback could spend below $80 and lock the pool items out).
+          const gopts = options.filter(p => GUARANTEED_POOL.includes(p.name));
+          if(gopts.length > 0){
+            const preferredNow = gopts.find(p => p.name === preferredGuaranteedItem);
+            const chosenG = preferredNow || gopts[0];
+            guaranteedComboWonOnce = true;
+            unwonBudget = unwonBudget.filter(p => p.name !== chosenG.name);
+            remainingBudget -= chosenG.price;
+            winCount += 1;
+            if(maySettle()){ gameOver = true; }
+            return buildEntry(chosenG.name, 0);
+          }
+        }
         const pool = safeOptions.length > 0 ? safeOptions : options;
         const chosen = pick(pool);
         unwonBudget = unwonBudget.filter(p => p.name !== chosen.name);
         remainingBudget -= chosen.price;
         winCount += 1;
         if(GUARANTEED_POOL.includes(chosen.name)){ guaranteedComboWonOnce = true; }
-        if(specialAwarded && affordableUnwon().length === 0){ gameOver = true; }
+        if(maySettle()){ gameOver = true; }
         return buildEntry(chosen.name, 0);
       }
     }
@@ -2008,18 +2072,25 @@
     remainingBudget -= chosen.price;
     winCount += 1;
     if(GUARANTEED_POOL.includes(chosen.name)){ guaranteedComboWonOnce = true; }
-    if(specialAwarded && affordableUnwon().length === 0){ gameOver = true; }
+    if(maySettle()){ gameOver = true; }
     return buildEntry(chosen.name, 0);
   }
 
   function grantBonusSpins(){
     bonusSpinsGrantCount += 1;
+    lastSpinWasBonus = true;
+    winCooldown = 1 + Math.floor(Math.random() * 2);
     return buildEntry(BONUS_SPINS_NAME, BONUS_SPINS_AMOUNT);
   }
 
   // Decides what this spin should do, given current game state.
   function decideSpin(){
     totalSpinsUsed += 1;
+    // Bonus spins can never be won twice in a row: remember whether the
+    // previous spin granted them, then clear the flag — grantBonusSpins()
+    // re-sets it if this spin ends up being a bonus win.
+    const bonusBlockedByStreak = lastSpinWasBonus;
+    lastSpinWasBonus = false;
 
     let pendingWinType = null;
     if(winCount === 0){
@@ -2027,7 +2098,7 @@
     } else if(winCount === 1 && !specialAwarded){
       pendingWinType = 'special';
     } else {
-      pendingWinType = affordableUnwon().length > 0 ? 'budget' : null;
+      pendingWinType = (!maySettle() && affordableUnwon().length > 0) ? 'budget' : null;
     }
 
     if(pendingWinType === null){
@@ -2036,21 +2107,22 @@
       return buildLossEntry();
     }
 
-    // Top priority: the game must always max out the budget before it ends.
-    // Bonus spins are hard-capped at 4, though, so once that cap is used up,
-    // there's no more "extend and hope" — instead every remaining spin
-    // delivers the next win outright until the budget is maxed. This is the
-    // only way to honor both "always finish" and "never more than 4 bonus
-    // spins" at once (verified across 200,000+ simulated games with zero
-    // failures to complete).
-    if(bonusSpinsGrantCount >= BONUS_SPINS_MAX_GRANTS){
-      const entry = deliverWin(pendingWinType);
-      // If more prizes are still pending but spins just hit 0, silently grant
-      // one more attempt — not a visible "5 Bonus Spins" win, just enough to
-      // keep the game from stalling while it finishes maxing out the budget.
-      if(!gameOver && spinsLeft <= 0){
-        spinsLeft += 1;
+    // Endgame safety valve: once both bonus grants are used AND spins are
+    // nearly gone, the remaining obligations get forced through — but
+    // alternated with losses (and silent single-spin top-ups) so even the
+    // tail never chains win after win. While plenty of spins remain, play
+    // continues at normal odds; the cap only blocks further bonus grants.
+    if(bonusSpinsGrantCount >= BONUS_SPINS_MAX_GRANTS && spinsLeft <= 1){
+      if(winCooldown > 0){
+        winCooldown -= 1;
+        if(spinsLeft <= 0){ spinsLeft += 1; }
+        return buildLossEntry();
       }
+      const entry = deliverWin(pendingWinType);
+      // Randomized 1-2 loss gap between forced wins, so even the endgame
+      // doesn't settle into a predictable win-every-other-spin rhythm.
+      winCooldown = 1 + (Math.random() < 0.4 ? 1 : 0);
+      if(!gameOver && spinsLeft <= 0){ spinsLeft += 1; }
       return entry;
     }
 
@@ -2058,13 +2130,30 @@
     // going rather than forcing the pending win through — forcing it
     // doesn't help if more than one prize is still pending, since a regular
     // prize win grants no extra spins.
-    if(spinsLeft <= 0){
+    if(spinsLeft <= 0 && bonusSpinsGrantCount < BONUS_SPINS_MAX_GRANTS){
+      if(bonusBlockedByStreak){
+        // Practically unreachable (a bonus grant tops spins up well above 0),
+        // but never allow two bonus wins in a row even here: deliver the
+        // pending win and silently keep the game alive instead.
+        const entry = deliverWin(pendingWinType);
+        if(!gameOver && spinsLeft <= 0){ spinsLeft += 1; }
+        return entry;
+      }
       return grantBonusSpins();
     }
 
     const bonusChance = spinsLeft > BONUS_LOW_THRESHOLD ? BONUS_CHANCE_HIGH : BONUS_CHANCE_LOW;
-    if(Math.random() < bonusChance){
+    if(!bonusBlockedByStreak && bonusSpinsGrantCount < BONUS_SPINS_MAX_GRANTS &&
+       Math.random() < bonusChance){
       return grantBonusSpins();
+    }
+
+    // Post-win cooldown: guaranteed losses for a spin or two after any win,
+    // so wins never chain spin after spin (the forced endgame branch above
+    // deliberately ignores this so the game can always finish).
+    if(winCooldown > 0){
+      winCooldown -= 1;
+      return buildLossEntry();
     }
 
     const winsNow = Math.random() < WIN_PROBABILITY;
@@ -2072,6 +2161,7 @@
       return buildLossEntry();
     }
 
+    winCooldown = 1 + Math.floor(Math.random() * 2);
     return deliverWin(pendingWinType);
   }
 
@@ -2255,35 +2345,53 @@
     if(document.fonts && document.fonts.ready){
       try{ await document.fonts.load('16px "Press Start 2P"'); await document.fonts.load('12px "IBM Plex Mono"'); }catch(e){}
     }
-    const W = 420, S = 3, PAD = 22, notch = 10;
-    const rows = Math.ceil(wonPrizes.length / 4) || 1;
-    const cols = Math.min(4, Math.max(wonPrizes.length, 1));
+    const W = 420, S = 3, PAD = 22;
+    const rows = Math.ceil(wonPrizes.length / 3) || 1;
+    const cols = Math.min(3, Math.max(wonPrizes.length, 1));
     const itemW = (W - PAD*2 - (cols-1)*8) / cols;
-    const itemH = 74;
-    const H = 24 + 84 + 12 + 58 + 17 + rows*(itemH+8) + 9 + 17 + 52 + 18;
+    const itemH = 92;
+    const TOP = 44, BOT = 40;
+    const H = TOP + 84 + 12 + 58 + 17 + rows*(itemH+8) + 9 + 17 + 34 + BOT;
     const cv = document.createElement('canvas');
     cv.width = W*S; cv.height = H*S;
     const ctx = cv.getContext('2d');
     ctx.scale(S, S);
     ctx.imageSmoothingEnabled = false;
+    // page-colored backdrop so the serrated teeth read as cutouts
     ctx.fillStyle = '#ffe9a0';
     ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = '#1a4d70';
-    ctx.fillRect(0, notch, W, H - notch*2);
-    ctx.fillRect(notch, 0, W - notch*2, H);
-    const b = 4;
+    // raffle-ticket outline: zigzag teeth along the top and bottom edges
+    const TEETH = 16, TH = 12;
+    const stepW = W / TEETH;
+    function ticketPath(){
+      ctx.beginPath();
+      ctx.moveTo(0, TH);
+      for(let i = 0; i < TEETH; i++){
+        ctx.lineTo((i + 0.5) * stepW, 0);
+        ctx.lineTo((i + 1) * stepW, TH);
+      }
+      ctx.lineTo(W, H - TH);
+      for(let i = TEETH; i > 0; i--){
+        ctx.lineTo((i - 0.5) * stepW, H);
+        ctx.lineTo((i - 1) * stepW, H - TH);
+      }
+      ctx.closePath();
+    }
+    ticketPath();
     ctx.fillStyle = '#fff4e0';
-    ctx.fillRect(b, notch + b, W - b*2, H - notch*2 - b*2);
-    ctx.fillRect(notch + b, b, W - notch*2 - b*2, H - b*2);
+    ctx.fill();
+    ctx.strokeStyle = '#1a4d70';
+    ctx.lineWidth = 5;
+    ctx.stroke();
     const gift = await loadImg(giftTokenImg.src);
-    let y = 24;
+    let y = TOP;
     if(gift){ ctx.drawImage(gift, W/2 - 42, y, 84, 84); }
     y += 84 + 12;
     ctx.fillStyle = '#b3323f';
     ctx.font = '16px "Press Start 2P", monospace';
     ctx.textAlign = 'center';
-    ctx.fillText('Happy Birthday', W/2, y + 14);
-    ctx.fillText('Baby!', W/2, y + 41);
+    ctx.fillText('Happy 31st Birthday', W/2, y + 14);
+    ctx.fillText('🦌 My Deer! 🦌', W/2, y + 41);
     y += 58;
     function perf(py){
       ctx.strokeStyle = '#c9a86a';
@@ -2295,10 +2403,10 @@
     perf(y); y += 17;
     for(let i = 0; i < wonPrizes.length; i++){
       const name = wonPrizes[i];
-      const row = Math.floor(i / 4);
-      const inRow = Math.min(4, wonPrizes.length - row*4);
+      const row = Math.floor(i / 3);
+      const inRow = Math.min(3, wonPrizes.length - row*3);
       const rowW = inRow*itemW + (inRow-1)*8;
-      const col = i % 4;
+      const col = i % 3;
       const x = (W - rowW)/2 + col*(itemW + 8);
       const iy = y + row*(itemH + 8);
       ctx.fillStyle = 'rgba(0,0,0,0.06)';
@@ -2309,18 +2417,18 @@
       if(icon.indexOf('data:image') === 0){
         const im = await loadImg(icon);
         if(im){
-          const ih = 30, iw = ih * (im.width/im.height);
-          ctx.drawImage(im, x + itemW/2 - iw/2, iy + 7, iw, ih);
+          const ih = 40, iw = ih * (im.width/im.height);
+          ctx.drawImage(im, x + itemW/2 - iw/2, iy + 9, iw, ih);
         }
       } else {
-        ctx.font = '24px sans-serif';
+        ctx.font = '32px sans-serif';
         ctx.fillStyle = '#3d2a12';
-        ctx.fillText(icon, x + itemW/2, iy + 30);
+        ctx.fillText(icon, x + itemW/2, iy + 40);
       }
       ctx.fillStyle = '#3d2a12';
-      ctx.font = '8px "IBM Plex Mono", monospace';
-      const lines = wrapText(ctx, name, itemW - 8).slice(0, 3);
-      lines.forEach((ln, li) => ctx.fillText(ln, x + itemW/2, iy + 47 + li*10));
+      ctx.font = '9px "IBM Plex Mono", monospace';
+      const lines = wrapText(ctx, name, itemW - 10).slice(0, 3);
+      lines.forEach((ln, li) => ctx.fillText(ln, x + itemW/2, iy + 62 + li*11));
     }
     y += rows*(itemH+8) + 9;
     perf(y); y += 17;
