@@ -1942,227 +1942,135 @@
     return { symbols: symbols, win:false };
   }
 
-  // --- Dynamic, budget-driven win engine ---
-  // State that persists across the whole game:
-  let remainingBudget = STARTING_BUDGET;
-  let unwonBudget = BUDGET_PRIZES.slice();
-  let winCount = 0;        // real prize wins only (budget items + the special one)
-  let specialAwarded = false;
-  let gameOver = false;
-  let totalSpinsUsed = 0;
-  let bonusSpinsGrantCount = 0;
-  let lastSpinWasBonus = false; // blocks back-to-back bonus-spin wins
-  // Wins are paced: after any win, the next 1-2 spins are guaranteed losses
-  // (except in the forced endgame), so wins never land every single spin.
-  let winCooldown = 0;
-  // The game no longer has to spend the entire $200 — it must deliver at
-  // least $160 of prizes, with the exact stopping point randomized per game
-  // so the total (and the number of wins) isn't predictable.
-  const SPEND_TARGET = 160 + Math.floor(Math.random() * 41); // $160-$200
-  let budgetWinsSoFar = 0;
-  let guaranteedComboWonOnce = false;
-  const guaranteeSlot = 1 + Math.floor(Math.random() * 3); // 1, 2, or 3
-  const preferredGuaranteedItem = pick(GUARANTEED_POOL);
+  // --- Pre-planned win engine ---
+  // The entire game is decided up front: a random prize combo worth
+  // $160-$200 (always containing at least one guaranteed-pool item, plus
+  // exactly one special hat/pants prize) is chosen, then every win —
+  // including up to two 5-bonus-spin wins — is assigned to a specific spin
+  // number. Spins between scheduled wins are random losses / close calls,
+  // so every game is guaranteed to deliver its full prize set and only the
+  // timing varies. The spin counter is sacred: it only decreases by playing
+  // and only increases through a visible bonus-spins win.
+  const BONUS_SPINS_AMOUNT = 5;
+  const BONUS_SPINS_MAX_GRANTS = 2;
 
-  // The game ends once all of these hold: the special prize (hat/pants) is
-  // awarded, at least one guaranteed-pool item (mouse/camera strap) is won,
-  // and total spend has reached this game's random target of at least $160 —
-  // or, as a fallback, nothing affordable remains.
-  const BONUS_LOW_THRESHOLD = 5;   // spins-left level that counts as "running low"
-  // Recalibrated (via simulation) for the +5-per-grant, 2-grant-max design
-  // below — these produce a ~30/70 split of bonus wins across
-  // spins-remaining > 5 vs <= 5.
-  const BONUS_CHANCE_HIGH = 0.25;   // per-spin chance while spins-remaining > 5
-  const BONUS_CHANCE_LOW = 0.08;   // per-spin chance while spins-remaining <= 5
-  const BONUS_SPINS_AMOUNT = 5;    // spins granted per bonus win (was 3)
-  const BONUS_SPINS_MAX_GRANTS = 2; // hard cap — never won more than this many times
-  // Previously 27% (not the 30% this was believed to be) — measured aggregate
-  // win rate (including bonus-spin wins) was still much higher than that due
-  // to the bonus mechanic's own frequency, so this is lowered further to
-  // space out real prize wins more, per feedback that wins felt too frequent.
-  const WIN_PROBABILITY = 0.16;
-
-  function affordableUnwon(){
-    return unwonBudget.filter(p => p.price <= remainingBudget);
-  }
-
-  function spentSoFar(){
-    return STARTING_BUDGET - remainingBudget;
-  }
-
-  // True once every obligation is met and the game is allowed to stop:
-  // special prize delivered, guaranteed-pool item delivered, and either the
-  // random spend target reached or nothing affordable left to give.
-  function maySettle(){
-    // The guarantee counts as satisfied if it was won, or if no pool item is
-    // affordable anymore (nothing can change that, so blocking the end would
-    // deadlock the game — fix 2a should make this fallback unreachable).
-    const guaranteeSatisfied = guaranteedComboWonOnce ||
-      !unwonBudget.some(p => GUARANTEED_POOL.includes(p.name) && p.price <= remainingBudget);
-    return specialAwarded && guaranteeSatisfied &&
-           (spentSoFar() >= SPEND_TARGET || affordableUnwon().length === 0);
-  }
-
-  // Delivers whichever win is currently "due" (the special one, or a random
-  // affordable budget prize — every affordable item has an equal, unbiased
-  // chance every time, so sometimes a small prize comes first, sometimes a
-  // big one), updating budget/game-over state as it goes.
-  function deliverWin(pendingWinType){
-    if(pendingWinType === 'special'){
-      const prize = pick(SPECIAL_SECOND_PRIZES);
-      specialAwarded = true;
-      winCount += 1;
-      if(maySettle()){ gameOver = true; }
-      return buildEntry(prize, 0);
+  function shuffleArr(arr){
+    const a = arr.slice();
+    for(let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = a[i]; a[i] = a[j]; a[j] = t;
     }
-    const options = affordableUnwon();
-    budgetWinsSoFar += 1;
+    return a;
+  }
 
-    if(!guaranteedComboWonOnce){
-      const guaranteedOptions = options.filter(p => GUARANTEED_POOL.includes(p.name));
-
-      if(budgetWinsSoFar >= guaranteeSlot && guaranteedOptions.length > 0){
-        // Designated slot reached — deliver the guarantee now.
-        const preferred = guaranteedOptions.find(p => p.name === preferredGuaranteedItem);
-        const chosen = preferred || guaranteedOptions[0];
-        guaranteedComboWonOnce = true;
-        unwonBudget = unwonBudget.filter(p => p.name !== chosen.name);
-        remainingBudget -= chosen.price;
-        winCount += 1;
-        if(maySettle()){ gameOver = true; }
-        return buildEntry(chosen.name, 0);
-      }
-
-      if(budgetWinsSoFar < guaranteeSlot){
-        // Not at the designated slot yet — pick normally, but avoid any
-        // choice that would spend the budget down far enough to make the
-        // guarantee unaffordable later.
-        const safeOptions = options.filter(p =>
-          !GUARANTEED_POOL.includes(p.name) && (remainingBudget - p.price) >= GUARANTEED_MAX_PRICE
-        );
-        if(safeOptions.length === 0){
-          // Every non-pool pick would leave the guarantee unaffordable, so
-          // deliver the guarantee right now instead of stranding it (the old
-          // fallback could spend below $80 and lock the pool items out).
-          const gopts = options.filter(p => GUARANTEED_POOL.includes(p.name));
-          if(gopts.length > 0){
-            const preferredNow = gopts.find(p => p.name === preferredGuaranteedItem);
-            const chosenG = preferredNow || gopts[0];
-            guaranteedComboWonOnce = true;
-            unwonBudget = unwonBudget.filter(p => p.name !== chosenG.name);
-            remainingBudget -= chosenG.price;
-            winCount += 1;
-            if(maySettle()){ gameOver = true; }
-            return buildEntry(chosenG.name, 0);
-          }
+  // Every subset of the budget catalog totalling $160-$200 that includes at
+  // least one guaranteed-pool item. 2^11 subsets — enumerated instantly.
+  function validCombos(){
+    const combos = [];
+    const n = BUDGET_PRIZES.length;
+    for(let mask = 1; mask < (1 << n); mask++){
+      let total = 0, hasGuar = false, over = false;
+      const names = [];
+      for(let i = 0; i < n; i++){
+        if(mask & (1 << i)){
+          total += BUDGET_PRIZES[i].price;
+          if(total > 200){ over = true; break; }
+          names.push(BUDGET_PRIZES[i].name);
+          if(GUARANTEED_POOL.indexOf(BUDGET_PRIZES[i].name) !== -1){ hasGuar = true; }
         }
-        const pool = safeOptions.length > 0 ? safeOptions : options;
-        const chosen = pick(pool);
-        unwonBudget = unwonBudget.filter(p => p.name !== chosen.name);
-        remainingBudget -= chosen.price;
-        winCount += 1;
-        if(GUARANTEED_POOL.includes(chosen.name)){ guaranteedComboWonOnce = true; }
-        if(maySettle()){ gameOver = true; }
-        return buildEntry(chosen.name, 0);
       }
+      if(!over && total >= 160 && total <= 200 && hasGuar){ combos.push(names); }
     }
-
-    const chosen = pick(options);
-    unwonBudget = unwonBudget.filter(p => p.name !== chosen.name);
-    remainingBudget -= chosen.price;
-    winCount += 1;
-    if(GUARANTEED_POOL.includes(chosen.name)){ guaranteedComboWonOnce = true; }
-    if(maySettle()){ gameOver = true; }
-    return buildEntry(chosen.name, 0);
+    // Four special single-item combos, added on top of the 17 subset combos
+    // (21 total, all equally likely). These deliberately skip the mouse/strap
+    // guarantee — it's the only way the big-ticket items can ever be won
+    // within the budget window.
+    combos.push(['Japanese Kitchen Knife']);
+    combos.push(['Oakley Running Sunglasses']);
+    combos.push(['Glasses']);
+    combos.push(['Cooking Class for Two']);
+    return combos;
   }
 
-  function grantBonusSpins(){
-    bonusSpinsGrantCount += 1;
-    lastSpinWasBonus = true;
-    winCooldown = 1 + Math.floor(Math.random() * 2);
-    return buildEntry(BONUS_SPINS_NAME, BONUS_SPINS_AMOUNT);
+  // Picks `count` distinct spin numbers in [first..last], no two adjacent —
+  // so wins can never land on back-to-back spins.
+  function pickSpreadSlots(count, first, last){
+    const span = last - first + 1;
+    if(2 * count - 1 > span){ return null; }
+    const reduced = span - (count - 1);
+    const used = {};
+    const picks = [];
+    while(picks.length < count){
+      const r = Math.floor(Math.random() * reduced);
+      if(!used[r]){ used[r] = true; picks.push(r); }
+    }
+    picks.sort((a, b) => a - b);
+    return picks.map((v, i) => first + v + i);
   }
 
-  // Decides what this spin should do, given current game state.
+  // Builds the full game plan: which prizes, on which spins, and where the
+  // bonus grants go. Retries until the bonus-timing constraint holds (a win
+  // can only sit beyond spin 10/15 if a bonus was granted before it).
+  function buildGamePlan(){
+    const combos = validCombos();
+    for(let attempt = 0; attempt < 400; attempt++){
+      const combo = pick(combos);
+      const special = pick(SPECIAL_SECOND_PRIZES);
+      const prizeNames = shuffleArr(combo.concat([special]));
+      const nBonus = 1 + Math.floor(Math.random() * BONUS_SPINS_MAX_GRANTS); // 1 or 2
+      const totalSpins = 10 + BONUS_SPINS_AMOUNT * nBonus;
+      const nEvents = prizeNames.length + nBonus;
+      const slots = pickSpreadSlots(nEvents, 2, totalSpins);
+      if(!slots){ continue; }
+      // bonus grants go on randomly chosen non-final slots (the game should
+      // always end on a real prize, never on a bonus win)
+      const idxPool = shuffleArr(slots.slice(0, slots.length - 1).map(function(_, i){ return i; }));
+      const bonusIdx = idxPool.slice(0, nBonus);
+      // validate: every slot must be reachable with the spins available at
+      // that moment (10 to start, +5 the moment each bonus slot is hit)
+      let cap = 10, okPlan = true;
+      for(let i = 0; i < slots.length; i++){
+        if(slots[i] > cap){ okPlan = false; break; }
+        if(bonusIdx.indexOf(i) !== -1){ cap += BONUS_SPINS_AMOUNT; }
+      }
+      if(!okPlan){ continue; }
+      const schedule = {};
+      let p = 0;
+      for(let i = 0; i < slots.length; i++){
+        if(bonusIdx.indexOf(i) !== -1){
+          schedule[slots[i]] = { type:'bonus' };
+        } else {
+          schedule[slots[i]] = { type:'prize', name: prizeNames[p++] };
+        }
+      }
+      return { schedule: schedule };
+    }
+    // Statistically unreachable backstop: a minimal always-valid plan.
+    const fb = {};
+    fb[3] = { type:'prize', name: GUARANTEED_POOL[0] };
+    fb[5] = { type:'prize', name: GUARANTEED_POOL[1] };
+    fb[7] = { type:'prize', name: pick(SPECIAL_SECOND_PRIZES) };
+    return { schedule: fb };
+  }
+
+  const gamePlan = buildGamePlan();
+  let gameOver = false;
+  let spinIndex = 0;
+
+  // With the whole game pre-planned, deciding a spin is just a lookup.
+  // Winning the last scheduled prize does NOT end the game — any remaining
+  // spins play out as losses, and the game ends when the counter hits 0
+  // (handled in advanceAfterSpin).
   function decideSpin(){
-    totalSpinsUsed += 1;
-    // Bonus spins can never be won twice in a row: remember whether the
-    // previous spin granted them, then clear the flag — grantBonusSpins()
-    // re-sets it if this spin ends up being a bonus win.
-    const bonusBlockedByStreak = lastSpinWasBonus;
-    lastSpinWasBonus = false;
-
-    let pendingWinType = null;
-    if(winCount === 0){
-      pendingWinType = 'budget';
-    } else if(winCount === 1 && !specialAwarded){
-      pendingWinType = 'special';
-    } else {
-      pendingWinType = (!maySettle() && affordableUnwon().length > 0) ? 'budget' : null;
-    }
-
-    if(pendingWinType === null){
-      // Nothing left that's winnable — shouldn't normally be reached since the
-      // game ends right after the last possible win, but is a safe fallback.
+    spinIndex += 1;
+    const ev = gamePlan.schedule[spinIndex];
+    if(!ev){
       return buildLossEntry();
     }
-
-    // Endgame safety valve: once both bonus grants are used AND spins are
-    // nearly gone, the remaining obligations get forced through — but
-    // alternated with losses (and silent single-spin top-ups) so even the
-    // tail never chains win after win. While plenty of spins remain, play
-    // continues at normal odds; the cap only blocks further bonus grants.
-    if(bonusSpinsGrantCount >= BONUS_SPINS_MAX_GRANTS && spinsLeft <= 1){
-      if(winCooldown > 0){
-        winCooldown -= 1;
-        if(spinsLeft <= 0){ spinsLeft += 1; }
-        return buildLossEntry();
-      }
-      const entry = deliverWin(pendingWinType);
-      // Randomized 1-2 loss gap between forced wins, so even the endgame
-      // doesn't settle into a predictable win-every-other-spin rhythm.
-      winCooldown = 1 + (Math.random() < 0.4 ? 1 : 0);
-      if(!gameOver && spinsLeft <= 0){ spinsLeft += 1; }
-      return entry;
+    if(ev.type === 'bonus'){
+      return buildEntry(BONUS_SPINS_NAME, BONUS_SPINS_AMOUNT);
     }
-
-    // Whenever spins are critically low, extend via bonus spins to keep
-    // going rather than forcing the pending win through — forcing it
-    // doesn't help if more than one prize is still pending, since a regular
-    // prize win grants no extra spins.
-    if(spinsLeft <= 0 && bonusSpinsGrantCount < BONUS_SPINS_MAX_GRANTS){
-      if(bonusBlockedByStreak){
-        // Practically unreachable (a bonus grant tops spins up well above 0),
-        // but never allow two bonus wins in a row even here: deliver the
-        // pending win and silently keep the game alive instead.
-        const entry = deliverWin(pendingWinType);
-        if(!gameOver && spinsLeft <= 0){ spinsLeft += 1; }
-        return entry;
-      }
-      return grantBonusSpins();
-    }
-
-    const bonusChance = spinsLeft > BONUS_LOW_THRESHOLD ? BONUS_CHANCE_HIGH : BONUS_CHANCE_LOW;
-    if(!bonusBlockedByStreak && bonusSpinsGrantCount < BONUS_SPINS_MAX_GRANTS &&
-       Math.random() < bonusChance){
-      return grantBonusSpins();
-    }
-
-    // Post-win cooldown: guaranteed losses for a spin or two after any win,
-    // so wins never chain spin after spin (the forced endgame branch above
-    // deliberately ignores this so the game can always finish).
-    if(winCooldown > 0){
-      winCooldown -= 1;
-      return buildLossEntry();
-    }
-
-    const winsNow = Math.random() < WIN_PROBABILITY;
-    if(!winsNow){
-      return buildLossEntry();
-    }
-
-    winCooldown = 1 + Math.floor(Math.random() * 2);
-    return deliverWin(pendingWinType);
+    return buildEntry(ev.name, 0);
   }
 
   let spinsLeft = 10;
@@ -2901,11 +2809,7 @@
       pendingEntry = entry;
       responseBubble.classList.remove('show');
       playJackpot();
-      if(gameOver){
-        launchFireworksForever();
-      } else {
-        launchFireworks(6500);
-      }
+      launchFireworks(6500);
       cabinetOuter.classList.add('rainbow-flash');
       setTimeout(() => {
         cabinetOuter.classList.remove('rainbow-flash');
@@ -2927,10 +2831,15 @@
 
   function advanceAfterSpin(){
     updateSpinsDisplay();
-    if(gameOver){
-      setTimeout(showFinalOverlay, 1100);
-    } else if(spinsLeft > 0){
+    if(spinsLeft > 0){
       spinBtn.disabled = false;
+    } else {
+      // All spins used up — this is the game's one and only ending. Every
+      // scheduled prize has been delivered by now (the plan guarantees it),
+      // so celebrate for good and show the summary.
+      gameOver = true;
+      launchFireworksForever();
+      setTimeout(showFinalOverlay, 1100);
     }
   }
 
